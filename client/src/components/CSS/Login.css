@@ -1,0 +1,28 @@
+/* 로그인 컴포넌트 전체 */
+.login-container {
+    display: flex;
+    flex-direction: column;
+    padding-top: 50px;
+}
+
+/* 아이디, 비밀번호 input 폼 */
+.login-input-form div {
+    margin: 2px;
+}
+
+.login-id {
+    text-align: center;
+}
+
+.login-pwd {
+    text-align: center;
+}
+
+/* 로그인, 회원가입 버튼 */
+.login-signup-form {
+    text-align: center;
+}
+
+.login-signup-form button {
+    margin: 5px;
+}
