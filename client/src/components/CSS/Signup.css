@@ -1,0 +1,9 @@
+.signup-container {
+    display: flex;
+    flex-direction: column;
+    padding-top: 50px;
+}
+
+.signup-input-form div {
+    margin: 2px;
+}
