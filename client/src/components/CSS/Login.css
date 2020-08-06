@@ -3,6 +3,7 @@
     display: flex;
     flex-direction: column;
     padding-top: 50px;
+    width: 300px;
 }
 
 /* 아이디, 비밀번호 input 폼 */
@@ -19,10 +20,10 @@
 }
 
 /* 로그인, 회원가입 버튼 */
-.login-signup-form {
+.login-signup-btn {
     text-align: center;
 }
 
-.login-signup-form button {
-    margin: 5px;
+.login-signup-btn button {
+    margin: 15px 5px;
 }

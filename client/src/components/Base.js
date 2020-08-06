@@ -12,13 +12,14 @@ function Base() {
 
     // == componentDidMount()
     useEffect(() => {
-        console.log(signup);
+
     })
 
     return (
         <div>
             <div className="main-logo">bpop</div>
             {
+                // 회원가입 페이지 ON OFF
                 !signup ?
                 <Login signup={setSignupForm}/>
                 :
