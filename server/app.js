@@ -1,20 +1,36 @@
 require('dotenv').config();
 
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+// Modules
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const crypto = require('crypto');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
 
-var app = express();
+const app = express();
 
+const secret = 'abcdefg';
+const hash = crypto.createHmac('sha256', secret)
+                   .update('I love cupcakes')
+                   .digest('hex');
+console.log(hash);
+
+// 환경변수 설정
 const DB_USERNAME = process.env.DB_USERNAME;
 const DB_PASSWORD = process.env.DB_PASSWORD;
 
-// mongodb set
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, x-access-token");
+    next();
+});
+
+// mongoDB Set
 const mongoose = require('mongoose');
 mongoose.connect(`mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@cluster0.a1nfl.mongodb.net/bpop`, {useNewUrlParser: true, useUnifiedTopology: true});
 
@@ -24,10 +40,6 @@ db.once('open', function() {
     // we're connected!
     console.log('Connected to database.');
 });
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());

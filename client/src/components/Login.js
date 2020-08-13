@@ -26,7 +26,7 @@ function Login(props) {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        console.log(emailId, password)
+        // 아이디와 비밀번호 검증 로직
     };
 
     const onChangeEmailId = (e) => {
@@ -70,7 +70,7 @@ function Login(props) {
                 <div className="login-pwd">
                     {
                         !passwordErr ?
-                        <TextField id="outlined-basic-2" type="password" label="비밀번호" placeholder="6~20 At least 3 Eng and Num each" inputRef={passwordLength} variant="outlined" value={password} onChange={onChangePassword} fullWidth={true} />
+                        <TextField id="outlined-basic-2" type="password" label="비밀번호" inputRef={passwordLength} variant="outlined" value={password} onChange={onChangePassword} fullWidth={true} />
                         :
                         <>
                         <TextField error id="outlined-error-helper-text" type="password" label="비밀번호" inputRef={passwordLength} variant="outlined" value={password} onChange={onChangePassword} fullWidth={true} />
