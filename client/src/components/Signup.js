@@ -49,9 +49,6 @@ function Signup(props) {
     const nickLength = useRef();
 
     useEffect(() => {
-        // 회원가입 완료시 상태값 초기화
-        setInsertEnd(false);
-
         if (termPage) {
             emailLength.current.maxLength = 30;
             passwordLength.current.maxLength = 20;
@@ -59,10 +56,7 @@ function Signup(props) {
             nickLength.current.maxLength = 10;
         }
         
-        if (insertEnd) {
-            props.signup();
-        }
-    }, [termPage, props, insertEnd]);
+    }, [termPage]);
 
     const onChangeEmailId = (e) => {
         setEmailId(e.target.value);
@@ -154,7 +148,9 @@ function Signup(props) {
                 
 
             } else {
+                // 회원가입 성공시 모달 창 띄우는 상태값
                 setInsertEnd(true);
+
                 // alert('회원정보를 다시 확인해주세요.');
             }   
         }
@@ -367,6 +363,12 @@ function Signup(props) {
                         <Button type="submit" variant="outlined">가입</Button>
                         <Button onClick={props.signup} variant="outlined" color="primary">취소</Button>
                     </div>
+                    {   // 회원가입 성공시 모달 띄우기
+                        insertEnd &&
+                        <div>
+                            <Button onClick={props.signup} variant="outlined" color="primary">로그인하기</Button>
+                        </div>
+                    }
                 </form>
             }
         </div>
