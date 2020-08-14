@@ -13,7 +13,7 @@ function Base() {
     // == componentDidMount()
     useEffect(() => {
 
-    })
+    }, []);
 
     return (
         <div>

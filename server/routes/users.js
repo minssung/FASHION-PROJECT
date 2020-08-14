@@ -13,6 +13,34 @@ async function loginCheck(info) {
     });
 }
 
+// 회원정보 이메일 중복 검사
+async function emailIdCheck(id) {
+    const result = await User.findOne({emailId: id}, (error, solve) => {
+        if (error) {
+            console.log(error);
+        } else if (solve) {
+            const id = solve._id;
+            return id;
+        }
+    });
+
+    return result;
+}
+
+// 회원정보 닉네임 중복 검사
+async function nickCheck(nick) {
+    const result = await User.findOne({nick: nick}, (error, solve) => {
+        if (error) {
+            console.log(error);
+        } else if (solve) {
+            const id = solve._id;
+            return id;
+        }
+    });
+
+    return result;
+}
+
 // 회원정보 입력받아 DB에 저장
 function insert(info) {
     const newUser = new User({
@@ -44,6 +72,18 @@ router.post('/loginCheck', (req, res) => {
 // 회원정보 입력
 router.post('/insert', (req, res) => {
     const result = insert(req.body.info);
+    res.send(result);
+});
+
+// 이메일 중복 검사
+router.post('/emailIdCheck', async (req, res) => {
+    const result = await emailIdCheck(req.body.id);
+    res.send(result);
+});
+
+// 닉네임 중복 검사
+router.post('/nickCheck', async (req, res) => {
+    const result = await nickCheck(req.body.nick);
     res.send(result);
 });
 

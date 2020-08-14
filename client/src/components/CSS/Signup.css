@@ -32,8 +32,43 @@
 
 /* 회원가입 인풋 폼 간격 */
 .signup-input-form div {
+    /* display: flex; */
     margin-top: 10px;
     width: 300px;
+}
+
+/* 사용가능 이메일 */
+.signup-input-confirm-1 {
+    color: cornflowerblue;
+    font-size: 14px;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* 잘못 입력 */
+.signup-input-confirm-2 {
+    color: orange;
+    font-size: 14px;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* 이미 등록된 이메일 */
+.signup-input-confirm-3 {
+    color: red;
+    font-size: 14px;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* 인풋 폼 에러 */
+.signup-input-error {
+    color: red;
+    font-size: 12px;
+}
+
+.signup-input-password-error {
+    color: red;
 }
 
 /* 가입, 취소 버튼 */
