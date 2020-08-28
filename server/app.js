@@ -13,11 +13,11 @@ const usersRouter = require('./routes/users');
 
 const app = express();
 
-// const secret = 'abcdefg';
-// const hash = crypto.createHmac('sha256', secret)
-//                    .update('I love cupcakes')
-//                    .digest('hex');
-// console.log(hash);
+const secret = 'cocomong';
+const hash = crypto.createHmac('sha256', secret)
+                   .update('뮻')
+                   .digest('hex');
+console.log(hash);
 
 // 환경변수 설정
 const DB_USERNAME = process.env.DB_USERNAME;

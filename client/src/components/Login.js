@@ -31,6 +31,7 @@ function Login(props) {
 
     const onChangeEmailId = (e) => {
         setEmailId(e.target.value);
+        changeKorean(e);
 
         const idLength = e.target.value.length;
         if (idLength >= 30) {
@@ -52,6 +53,36 @@ function Login(props) {
             setPasswordErr(false);
         }
     };
+
+    const changeKorean = (e) => {
+        const korean = ['ㅂ', 'ㅃ', 'ㅈ', 'ㅉ', 'ㄷ', 'ㄸ', 'ㄱ', 'ㄲ', 'ㅅ', 'ㅆ', 'ㅛ', 'ㅕ', 'ㅑ', 'ㅐ', 'ㅒ', 'ㅔ', 'ㅖ', 'ㅁ'];
+
+        let regKorean = [];
+        for (let i = 0; i < korean.length; i++) {
+            regKorean.push(new RegExp(`^(\\w+${korean[i]})|(${korean[i]}\\w+)|(${korean[i]})$`));
+        }
+        
+        const english = ['q', 'Q', 'w', 'W', 'e', 'E', 'r', 'R', 't', 'T', 'y', 'u', 'i', 'o', 'O', 'p', 'P', 'a'];
+        
+        for (let i = 0; i < regKorean.length; i++) {
+            
+            // console.log(regKorean[i]);
+            // console.log(regKorean[i].test(e.target.value))
+            
+            if (regKorean[i].test(e.target.value)) {
+                const string = e.target.value.replace(korean[i], english[i]);
+                console.log(korean[i], '정규식 변환 ->', string);
+                setEmailId(string);
+            }
+
+            // if (e.target.value === korean[i]) {
+            //     const string = e.target.value.replace(korean[i], english[i]);
+            //     console.log('실행', string);
+            //     setEmailId(string);
+            // }
+        }
+        
+    }
 
     return (
         <div className="login-container">

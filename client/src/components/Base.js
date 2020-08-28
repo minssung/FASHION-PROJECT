@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Login from './Login';
 import Signup from './Signup';
+import './CSS/Base.css';
 
 function Base() {
     // 초기 state
@@ -16,15 +17,17 @@ function Base() {
     }, []);
 
     return (
-        <div>
+        <div className="main-container">
             <div className="main-logo">bpop</div>
-            {
-                // 회원가입 페이지 ON OFF
-                !signup ?
-                <Login signup={setSignupForm}/>
-                :
-                <Signup signup={setLoginForm}/>
-            }
+            <div className="main-login-insert">
+                {
+                    // 회원가입 페이지 ON OFF
+                    !signup ?
+                    <Login signup={setSignupForm}/>
+                    :
+                    <Signup signup={setLoginForm}/>
+                }
+            </div>
         </div>
     );
 }

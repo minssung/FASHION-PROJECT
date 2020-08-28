@@ -24,7 +24,7 @@ function Signup(props) {
     // 최대 글자 수 초과 에러 상태값
     const [emailIdErr, setEmailIdErr] = useState(false);
     const [passwordErr, setPasswordErr] = useState(false);
-    const [passwordCheckErr, setPassWordCheckErr] = useState(false);
+    const [passwordCheckErr, setPasswordCheckErr] = useState(false);
     const [nickErr, setNickErr] = useState(false);
 
     // 회원가입 이메일 유효성 상태값
@@ -63,7 +63,6 @@ function Signup(props) {
 
         const idLength = e.target.value.length;
         if (idLength >= 30) {
-            // 제한 걸렸을 경우 코드
             setEmailIdErr(true);
         } else {
             setEmailIdErr(false);
@@ -77,14 +76,37 @@ function Signup(props) {
         password = password.replace(regExp, '');
         setPassword(password);
 
+        limitPassword(e);
+    };
+
+    // 비밀번호를 입력할때마다 password 를 검증하는 함수
+    const onChangePasswordChk = useCallback((e) => {
+        setPasswordError(e.target.value !== password);
+        setPasswordCheck(e.target.value);
+
+        const regExp = /\s/g;
+        let regPwd = e.target.value;
+        regPwd = regPwd.replace(regExp, '');
+        setPasswordCheck(regPwd);
+
+        limitPassword(e);
+    }, [password]);
+
+    const limitPassword = (e) => {
         const passwordLength = e.target.value.length;
-        if (passwordLength >= 20) {
-            // 제한 걸렸을 경우 코드
+
+        if (passwordLength >= 20 && e.target.name === "password") {
             setPasswordErr(true);
         } else {
             setPasswordErr(false);
         }
-    };
+        
+        if (passwordLength >= 20 && e.target.name === "passwordChk") {
+            setPasswordCheckErr(true);
+        } else {
+            setPasswordCheckErr(false);
+        }
+    }
 
     // 회원가입 닉네임 입력 (특수문자 입력불가)
     const onChangeNick = (e) => {
@@ -97,23 +119,20 @@ function Signup(props) {
 
         const nickLength = e.target.value.length;
         if (nickLength >= 10) {
-            // 제한 걸렸을 경우 코드
             setNickErr(true);
         } else {
             setNickErr(false);
         }
     };
 
+    // 체크박스 초기화
+    const onChangeTerm = useCallback((e) => {
+        setTermError(false);
+        setTerm(e.target.checked);
+    }, []);
+
     const onSubmit = useCallback( async (e) => {
         e.preventDefault();
-        /** 검증 로직
-         * 1. 아이디 유효성 검사
-         * 2. 닉네임 유효성 검사
-         * 3. 비밀번호 유효성 검사
-         * 4. 비밀번호와 비밀번호 체크가 다를 경우를 검증한다
-         * 5. 약관 동의를 확인한다.
-         */
-        // if (id === '') alert('아이디를 입력해주세요.');
 
         if (password !== passwordCheck) {
             return setPasswordError(true);
@@ -144,50 +163,25 @@ function Signup(props) {
                     term
                 });
 
-                // 회원가입 완료 후 로그인 페이지로 이동
-                
-
-            } else {
-                // 회원가입 성공시 모달 창 띄우는 상태값
+                // 모달 on
                 setInsertEnd(true);
 
-                // alert('회원정보를 다시 확인해주세요.');
+            } else {
+                // 로그인 실패
+                if (!emailId) setEmailIdErr(true);
+                if (!nick) setNickErr(true);
+                if (!password) setPasswordErr(true);
+                if (!passwordCheck) setPasswordCheckErr(true);
             }   
         }
     }, [password, passwordCheck, term, termPage, emailId, nick, confirmEmailId, confirmNick, confirmPassword, confirmPasswordCheck]);
-
-    // 비밀번호를 입력할때마다 password 를 검증하는 함수
-    const onChangePasswordChk = useCallback((e) => {
-        setPasswordError(e.target.value !== password);
-        setPasswordCheck(e.target.value);
-
-        const regExp = /\s/g;
-        let regPwd = e.target.value;
-        regPwd = regPwd.replace(regExp, '');
-        setPasswordCheck(regPwd);
-
-        const passwordCheckLength = e.target.value.length;
-        if (passwordCheckLength >= 20) {
-            // 제한 걸렸을 경우 코드
-            setPassWordCheckErr(true);
-
-        } else {
-            setPassWordCheckErr(false);
-        }
-    }, [password]);
-
-    // 체크박스 초기화
-    const onChangeTerm = useCallback((e) => {
-        setTermError(false);
-        setTerm(e.target.checked);
-    }, []);
 
     // 이메일 중복검사
     const onBlurEmailId = async (e) => {
         const regExp = /^[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
         const id = e.target.value;
 
-        if (id !== null) {
+        if (id) {
             const result = await axios.post('http://localhost:5000/users/emailIdCheck', { id: id });
 
             // 사용가능 - 사용불가(중복) - 기본
@@ -213,7 +207,7 @@ function Signup(props) {
         const regExp2 = /([ㄱ-ㅎㅏ-ㅣ])/i;
         const nick = e.target.value;
 
-        if (nick !== null) {
+        if (nick) {
             const result = await axios.post('http://localhost:5000/users/nickCheck', { nick: nick });
 
             // 사용가능 - 사용불가(중복) - 기본
@@ -248,20 +242,24 @@ function Signup(props) {
         const regExp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,20}$/i;
         const password = e.target.value;
 
-        if (regExp.test(password)) {
-            setConfirmPassword(false);
-        } else {
-            setConfirmPassword(true);
+        if (password) {
+            if (regExp.test(password)) {
+                setConfirmPassword(false);
+            } else {
+                setConfirmPassword(true);
+            }
         }
     }
     const onBlurPasswordCheck = (e) => {
         const regExp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,20}$/i;
         const password = e.target.value;
 
-        if (regExp.test(password)) {
-            setConfirmPasswordCheck(false);
-        } else {
-            setConfirmPasswordCheck(true);
+        if (password) {
+            if (regExp.test(password)) {
+                setConfirmPasswordCheck(false);
+            } else {
+                setConfirmPasswordCheck(true);
+            }
         }
     }
 
@@ -269,109 +267,119 @@ function Signup(props) {
     const neonStyles = useNeonCheckboxStyles();
 
     return (
-        <div className="signup-container">
-            {
-                !termPage ?
-                <div className="signup-term-container">
-                    <div>이용약관</div>
-                    <div className="signup-term-comment">
-                        {<TermComment/>}
-                    </div>
-                    <form onSubmit={onSubmit} className="signup-term-form" noValidate autoComplete="off">
-                        <div className="signup-term">
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        disableRipple
-                                        classes={neonStyles}
-                                        checkedIcon={<span />}
-                                        icon={<span />}
-                                        value={term} onChange={onChangeTerm}
-                                    />
-                                }
-                                label={'약관에 동의'}
-                            />
-                            {termError && <div style={{color : 'red'}}>약관에 동의하셔야 합니다.</div>}
+        <>
+            <div className="signup-container">
+                {
+                    !termPage ?
+                    <div className="signup-term-container">
+                        <div>이용약관</div>
+                        <div className="signup-term-comment">
+                            {<TermComment/>}
                         </div>
-                        <div className="signup-term-btn">
-                            <Button type="submit" variant="outlined" fullWidth={true}>가입</Button>
+                        <form onSubmit={onSubmit} className="signup-term-form" noValidate autoComplete="off">
+                            <div className="signup-term">
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            disableRipple
+                                            classes={neonStyles}
+                                            checkedIcon={<span />}
+                                            icon={<span />}
+                                            value={term} onChange={onChangeTerm}
+                                        />
+                                    }
+                                    label={'약관에 동의'}
+                                />
+                                {termError && <div style={{color : 'red'}}>약관에 동의하셔야 합니다.</div>}
+                            </div>
+                            <div className="signup-term-btn">
+                                <Button type="submit" variant="outlined" fullWidth={true}>가입</Button>
+                            </div>
+                        </form>
+                    </div>
+                    :
+                    <form onSubmit={onSubmit} className="signup-input-form" noValidate autoComplete="off">
+                        <div className="signup-id">
+                            {
+                                !emailIdErr ? <>
+                                <TextField id="standard-basic-1" inputRef={emailLength} onBlur={onBlurEmailId} label="이메일 아이디" value={emailId} placeholder="id@domain.com" required onChange={onChangeEmailId} />
+                                { confirmEmailId && <div className="signup-input-confirm-1">사용 가능한 이메일입니다.</div> }
+                                { confirmIdErr && <div className="signup-input-confirm-2">이메일 형식으로 입력해주세요.</div> }
+                                { existId && <div className="signup-input-confirm-3">이미 등록된 이메일입니다.</div> }
+                                </>
+                                :
+                                <>
+                                <TextField error id="outlined-error-helper-text" label="이메일 아이디" placeholder="id@domain.com" inputRef={emailLength} value={emailId} required onChange={onChangeEmailId} />
+                                <div className="signup-input-error">이메일은 8~30자 사이로 입력해주세요.</div>
+                                </>
+                            }
                         </div>
-                    </form>
-                </div>
-                :
-                <form onSubmit={onSubmit} className="signup-input-form" noValidate autoComplete="off">
-                    <div className="signup-id">
-                        {
-                            !emailIdErr ? <>
-                            <TextField id="standard-basic-1" inputRef={emailLength} onBlur={onBlurEmailId} label="이메일 아이디" value={emailId} placeholder="id@domain.com" required onChange={onChangeEmailId} />
-                            { confirmEmailId && <div className="signup-input-confirm-1">사용 가능한 이메일입니다.</div> }
-                            { confirmIdErr && <div className="signup-input-confirm-2">이메일 형식으로 입력해주세요.</div> }
-                            { existId && <div className="signup-input-confirm-3">이미 등록된 이메일입니다.</div> }
-                            </>
-                            :
-                            <>
-                            <TextField error id="outlined-error-helper-text" label="이메일 아이디" placeholder="id@domain.com" inputRef={emailLength} value={emailId} required onChange={onChangeEmailId} />
-                            <div className="signup-input-error">이메일은 8~30자 사이로 입력해주세요.</div>
-                            </>
-                        }
-                    </div>
-                    <div className="signup-nick">
-                        {
-                            !nickErr ? <>
-                            <TextField id="standard-basic-2" inputRef={nickLength} onBlur={onBlurNick} label="닉네임" value={nick} placeholder="2 ~ 10자 사이" required onChange={onChangeNick} />
-                            { confirmNick && <div className="signup-input-confirm-1">사용 가능한 닉네임입니다.</div> }
-                            { confirmNickErr && <div className="signup-input-confirm-2">2 ~ 10자로 입력해주세요.</div> }
-                            { exceptionNick && <div className="signup-input-confirm-2">자음, 모음을 단일로 사용할 수 없습니다.</div> }
-                            { existNick && <div className="signup-input-confirm-3">이미 등록된 닉네임입니다.</div> }
-                            </>
-                            :
-                            <>
-                            <TextField error id="standard-basic-2" inputRef={nickLength} label="닉네임" value={nick} placeholder="2 ~ 10자 사이" required onChange={onChangeNick} />
-                            <div className="signup-input-error">닉네임은 2~8자 사이로 입력해주세요.</div>
-                            </>
-                        }
-                    </div>
-                    <div className="signup-pwd">
-                        {
-                            !passwordErr ? <>
-                            <TextField id="standard-basic-3" inputRef={passwordLength} onBlur={onBlurPassword} type="password" label="비밀번호" value={password} placeholder="영문, 숫자 6 ~ 20자 사이" required onChange={onChangePassword} />
-                            { confirmPassword && <div className="signup-input-confirm-2">영문과 숫자를 포함한 6~20자여야 합니다.</div> }
-                            </>
-                            :
-                            <>
-                            <TextField error id="outlined-error-helper-text" type="password" label="비밀번호" inputRef={passwordLength} value={password} required onChange={onChangePassword} />
-                            <div className="signup-input-error">패스워드는 6~20자 사이로 입력해주세요.</div>
-                            </>
-                        }
-                    </div>
-                    <div className="signup-pwdcheck">
-                        {
-                            !passwordCheckErr ? <>
-                            <TextField id="standard-basic-4" inputRef={passwordCheckLength} onBlur={onBlurPasswordCheck} type="password" label="비밀번호 확인" value={passwordCheck} placeholder="영문, 숫자 6 ~ 20자 사이" required onChange={onChangePasswordChk} />
-                            { confirmPasswordCheck && <div className="signup-input-confirm-2">영문과 숫자를 포함한 6~20자여야 합니다.</div> }
-                            </>
-                            :
-                            <>
-                            <TextField error id="outlined-error-helper-text" type="password" label="비밀번호 확인" inputRef={passwordCheckLength} value={passwordCheck} required onChange={onChangePasswordChk} />
-                            <div className="signup-input-error">패스워드는 6~20자 사이로 입력해주세요.</div>
-                            </>
-                        }
-                        {passwordError && <div className="signup-input-password-error">비밀번호가 일치하지 않습니다.</div>}
-                    </div>
+                        <div className="signup-nick">
+                            {
+                                !nickErr ? <>
+                                <TextField id="standard-basic-2" inputRef={nickLength} onBlur={onBlurNick} label="닉네임" value={nick} placeholder="2 ~ 10자 사이" required onChange={onChangeNick} />
+                                { confirmNick && <div className="signup-input-confirm-1">사용 가능한 닉네임입니다.</div> }
+                                { confirmNickErr && <div className="signup-input-confirm-2">2 ~ 10자로 입력해주세요.</div> }
+                                { exceptionNick && <div className="signup-input-confirm-2">자음, 모음을 단일로 사용할 수 없습니다.</div> }
+                                { existNick && <div className="signup-input-confirm-3">이미 등록된 닉네임입니다.</div> }
+                                </>
+                                :
+                                <>
+                                <TextField error id="standard-basic-2" inputRef={nickLength} label="닉네임" value={nick} placeholder="2 ~ 10자 사이" required onChange={onChangeNick} />
+                                <div className="signup-input-error">닉네임은 2~8자 사이로 입력해주세요.</div>
+                                </>
+                            }
+                        </div>
+                        <div className="signup-pwd">
+                            {
+                                !passwordErr ? <>
+                                <TextField id="standard-basic-3" name="password" inputRef={passwordLength} onBlur={onBlurPassword} type="password" label="비밀번호" value={password} placeholder="영문, 숫자 6 ~ 20자 사이" required onChange={onChangePassword} />
+                                { confirmPassword && <div className="signup-input-confirm-2">영문과 숫자를 포함한 6~20자여야 합니다.</div> }
+                                </>
+                                :
+                                <>
+                                <TextField error id="outlined-error-helper-text" type="password" label="비밀번호" inputRef={passwordLength} value={password} required onChange={onChangePassword} />
+                                <div className="signup-input-error">패스워드는 6~20자 사이로 입력해주세요.</div>
+                                </>
+                            }
+                        </div>
+                        <div className="signup-pwdcheck">
+                            {
+                                !passwordCheckErr ? <>
+                                <TextField id="standard-basic-4" name="passwordChk" inputRef={passwordCheckLength} onBlur={onBlurPasswordCheck} type="password" label="비밀번호 확인" value={passwordCheck} placeholder="영문, 숫자 6 ~ 20자 사이" required onChange={onChangePasswordChk} />
+                                { confirmPasswordCheck && <div className="signup-input-confirm-2">영문과 숫자를 포함한 6~20자여야 합니다.</div> }
+                                </>
+                                :
+                                <>
+                                <TextField error id="outlined-error-helper-text" type="password" label="비밀번호 확인" inputRef={passwordCheckLength} value={passwordCheck} required onChange={onChangePasswordChk} />
+                                <div className="signup-input-error">패스워드는 6~20자 사이로 입력해주세요.</div>
+                                </>
+                            }
+                            {passwordError && <div className="signup-input-password-error">비밀번호가 일치하지 않습니다.</div>}
+                        </div>
 
-                    <div className="signup-btn">
-                        <Button type="submit" variant="outlined">가입</Button>
-                        <Button onClick={props.signup} variant="outlined" color="primary">취소</Button>
-                    </div>
-                    {   // 회원가입 성공시 모달 띄우기
-                        insertEnd &&
-                        <div>
-                            <Button onClick={props.signup} variant="outlined" color="primary">로그인하기</Button>
+                        <div className="signup-btn">
+                            <Button type="submit" variant="outlined">가입</Button>
+                            <Button onClick={props.signup} variant="outlined" color="primary">취소</Button>
                         </div>
-                    }
-                </form>
+                        
+                    </form>
+                }
+            </div>  
+            {
+                insertEnd && <>
+                    <div className="signup-modal-overay"></div>
+                    <div className="signup-modal">
+                        <div className="signup-modal-comment">
+                            회원가입이 완료되었습니다.
+                        </div>
+                        <div className="signup-modal-btn">
+                            <Button onClick={props.signup} variant="outlined" color="primary">로그인</Button>
+                        </div>
+                    </div>
+                </>
             }
-        </div>
+        </>
     );
 }
 

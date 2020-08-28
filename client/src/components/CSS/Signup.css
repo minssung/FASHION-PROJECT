@@ -1,9 +1,11 @@
 /* 회원가입 폼 전체 */
-.signup-container {
+/* .signup-container {
     display: flex;
+    width: 100%;
+    height: 100%;;
     flex-direction: column;
     padding-top: 50px;
-}
+} */
 
 /* 회원가입 약관동의 텍스트 CSS */
 .signup-term-container div:nth-child(1) {
@@ -78,4 +80,40 @@
 }
 .signup-btn button {
     margin: 5px;
+}
+
+/* 회원가입 완료 모달 */
+.signup-modal {
+    flex-direction: column;
+    width: 400px;
+    height: 150px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    background-color: white;
+    border: 1px solid black;
+    margin-left: -200px;
+    margin-top: -75px;
+    opacity: 0.8;
+    z-index: 2000;
+}
+
+.signup-modal-overay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: gray;
+    opacity: 0.3;
+    z-index: 1000;
+}
+
+.signup-modal-comment {
+    font-size: 20px;
+    padding-top: 40px;
+    text-align: center;
+}
+
+.signup-modal-btn {
+    padding-top: 30px;
+    text-align: center;
 }
