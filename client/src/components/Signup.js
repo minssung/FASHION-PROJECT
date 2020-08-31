@@ -19,7 +19,7 @@ function Signup(props) {
     const [passwordError,setPasswordError] = useState(false);
     const [termError,setTermError] = useState(false);
     const [termPage, setTermPage] = useState(false);
-    const [insertEnd, setInsertEnd] = useState(false);
+    const [insertModal, setInsertModal] = useState(false);
 
     // 최대 글자 수 초과 에러 상태값
     const [emailIdErr, setEmailIdErr] = useState(false);
@@ -154,17 +154,9 @@ function Signup(props) {
                 };
     
                 await axios.post('http://localhost:5000/users/insert', {info: infoObj});
-    
-                console.log({
-                    emailId,
-                    nick,
-                    password,
-                    passwordCheck,
-                    term
-                });
 
                 // 모달 on
-                setInsertEnd(true);
+                setInsertModal(true);
 
             } else {
                 // 로그인 실패
@@ -367,7 +359,7 @@ function Signup(props) {
                 }
             </div>  
             {
-                insertEnd && <>
+                insertModal && <>
                     <div className="signup-modal-overay"></div>
                     <div className="signup-modal">
                         <div className="signup-modal-comment">

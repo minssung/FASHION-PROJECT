@@ -4,6 +4,7 @@ import './CSS/Login.css';
 // Module
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import axios from 'axios';
 
 function Login(props) {
     const [emailId, setEmailId] = useState('');
@@ -11,28 +12,47 @@ function Login(props) {
     const [emailIdErr, setEmailIdErr] = useState(false);
     const [passwordErr, setPasswordErr] = useState(false);
 
-    const emailLength = useRef();
-    const passwordLength = useRef();
+    const emailRef = useRef();
+    const passwordRef = useRef();
+
+    // shift key true & false
+    let shiftState;
 
     // < 아이디, 비밀번호 길이 제한 >
     // 초기에 한 번 실행
     // 아이디는 8자 ~ 30자 이메일 형식으로만
     // 비밀번호는 6자 ~ 20자 영어, 숫자 각각 최소 3자 씩
     useEffect(() => {
-        emailLength.current.maxLength = 30;
-        passwordLength.current.maxLength = 20;
+        emailRef.current.maxLength = 30;
+        passwordRef.current.maxLength = 20;
 
     }, []);
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
         // 아이디와 비밀번호 검증 로직
+        
+        const infoObj = {
+            emailid: emailId,
+            password: password
+        };
+        const checkInfo = await axios.post('http://localhost:5000/users/loginCheck', { info: infoObj });
+
+        // 로그인 성공, 실패
+        if (checkInfo.data) props.login();
+        else if (!checkInfo.data && emailId && password) alert('등록되지 않은 이메일이거나 일치하지 않는 비밀번호입니다.');
+        else if (!emailId) { alert('이메일을 입력해주세요.'); emailRef.current.focus(); }
+        else if (!password) { alert('비밀번호를 입력해주세요.'); passwordRef.current.focus(); }
+
     };
+
+    const shiftKeyDown = (e) => {
+        shiftState = e.shiftKey;
+    }
 
     const onChangeEmailId = (e) => {
         setEmailId(e.target.value);
-        changeKorean(e);
-
+        
         const idLength = e.target.value.length;
         if (idLength >= 30) {
             // 제한 걸렸을 경우 코드
@@ -44,6 +64,7 @@ function Login(props) {
 
     const onChangePassword = (e) => {
         setPassword(e.target.value);
+        changeKorean(e);
 
         const passwordLength = e.target.value.length;
         if (passwordLength >= 20) {
@@ -55,33 +76,29 @@ function Login(props) {
     };
 
     const changeKorean = (e) => {
-        const korean = ['ㅂ', 'ㅃ', 'ㅈ', 'ㅉ', 'ㄷ', 'ㄸ', 'ㄱ', 'ㄲ', 'ㅅ', 'ㅆ', 'ㅛ', 'ㅕ', 'ㅑ', 'ㅐ', 'ㅒ', 'ㅔ', 'ㅖ', 'ㅁ'];
+        const korean = ['ㅂ', 'ㅃ', 'ㅈ', 'ㅉ', 'ㄷ', 'ㄸ', 'ㄱ', 'ㄲ', 'ㅅ', 'ㅆ', 'ㅛ', 'ㅕ', 'ㅑ', 'ㅐ', 'ㅒ', 'ㅔ', 'ㅖ', 'ㅁ', 'ㄴ', 'ㅇ', 'ㄹ', 'ㅎ', 'ㅗ', 'ㅓ', 'ㅏ', 'ㅣ', 'ㅋ', 'ㅌ', 'ㅊ', 'ㅍ', 'ㅠ', 'ㅜ', 'ㅡ'];
+        const english = ['q', 'Q', 'w', 'W', 'e', 'E', 'r', 'R', 't', 'T', 'y', 'u', 'i', 'o', 'O', 'p', 'P', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm'];
+        const capitalLetter = ['Q', 'Q', 'W', 'W', 'E', 'E', 'R', 'R', 'T', 'T', 'Y', 'U', 'I', 'O', 'O', 'P', 'P', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Z', 'X', 'C', 'V', 'B', 'N', 'M'];
 
-        let regKorean = [];
+        // 한국어만 return 되는 정규식 생성
+        let regExpKorean = [];
         for (let i = 0; i < korean.length; i++) {
-            regKorean.push(new RegExp(`^(\\w+${korean[i]})|(${korean[i]}\\w+)|(${korean[i]})$`));
+            regExpKorean.push(new RegExp(`^(\\w+${korean[i]})|(${korean[i]}\\w+)|(${korean[i]})$`));
         }
         
-        const english = ['q', 'Q', 'w', 'W', 'e', 'E', 'r', 'R', 't', 'T', 'y', 'u', 'i', 'o', 'O', 'p', 'P', 'a'];
-        
-        for (let i = 0; i < regKorean.length; i++) {
-            
-            // console.log(regKorean[i]);
-            // console.log(regKorean[i].test(e.target.value))
-            
-            if (regKorean[i].test(e.target.value)) {
-                const string = e.target.value.replace(korean[i], english[i]);
-                console.log(korean[i], '정규식 변환 ->', string);
-                setEmailId(string);
+        for (let i = 0; i < regExpKorean.length; i++) {
+            let string = e.target.value;
+
+            if (regExpKorean[i].test(e.target.value)) {
+                string = string.replace(korean[i], english[i]);
+                setPassword(string);
             }
 
-            // if (e.target.value === korean[i]) {
-            //     const string = e.target.value.replace(korean[i], english[i]);
-            //     console.log('실행', string);
-            //     setEmailId(string);
-            // }
+            if (regExpKorean[i].test(e.target.value) && shiftState) {
+                string = string.replace(korean[i], capitalLetter[i]);
+                setPassword(string);
+            }
         }
-        
     }
 
     return (
@@ -90,10 +107,10 @@ function Login(props) {
                 <div className="login-id">
                     {
                         !emailIdErr ?
-                        <TextField id="outlined-basic-1" label="이메일 아이디" placeholder="id@domain.com" inputRef={emailLength} variant="outlined" value={emailId} onChange={onChangeEmailId} fullWidth={true} />
+                        <TextField id="outlined-basic-1" label="이메일 아이디" placeholder="id@domain.com" inputRef={emailRef} variant="outlined" value={emailId} onChange={onChangeEmailId} fullWidth={true} />
                         :
                         <>
-                        <TextField error id="outlined-error-helper-text" label="이메일 아이디" placeholder="id@domain.com" inputRef={emailLength} variant="outlined" value={emailId} onChange={onChangeEmailId} fullWidth={true} />
+                        <TextField error id="outlined-error-helper-text" label="이메일 아이디" placeholder="id@domain.com" inputRef={emailRef} variant="outlined" value={emailId} onChange={onChangeEmailId} fullWidth={true} />
                         <div style={{color: 'red', margin: '5px auto'}}>이메일은 8~30자 사이로 입력해주세요.</div>
                         </>
                     }
@@ -101,10 +118,10 @@ function Login(props) {
                 <div className="login-pwd">
                     {
                         !passwordErr ?
-                        <TextField id="outlined-basic-2" type="password" label="비밀번호" inputRef={passwordLength} variant="outlined" value={password} onChange={onChangePassword} fullWidth={true} />
+                        <TextField id="outlined-basic-2" type="password" onKeyDown={shiftKeyDown} label="비밀번호" inputRef={passwordRef} variant="outlined" value={password} onChange={onChangePassword} fullWidth={true} />
                         :
                         <>
-                        <TextField error id="outlined-error-helper-text" type="password" label="비밀번호" inputRef={passwordLength} variant="outlined" value={password} onChange={onChangePassword} fullWidth={true} />
+                        <TextField error id="outlined-error-helper-text" type="password" label="비밀번호" inputRef={passwordRef} variant="outlined" value={password} onChange={onChangePassword} fullWidth={true} />
                         <div style={{color: 'red', margin: '5px auto'}}>패스워드는 6~20자 사이로 입력해주세요.</div>
                         </>
                     }
