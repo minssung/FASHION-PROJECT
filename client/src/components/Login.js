@@ -12,6 +12,8 @@ function Login(props) {
     const [emailIdErr, setEmailIdErr] = useState(false);
     const [passwordErr, setPasswordErr] = useState(false);
 
+    const [userCookie, setUserCookie] = useState('');
+
     const emailRef = useRef();
     const passwordRef = useRef();
 
@@ -26,7 +28,16 @@ function Login(props) {
         emailRef.current.maxLength = 30;
         passwordRef.current.maxLength = 20;
 
-    }, []);
+        if (userCookie) {
+            async function fetchCookie() {
+                const auth_JWT = await axios.post('http://localhost:5000/auth', { user: userCookie });
+                console.log(auth_JWT);
+            };
+            fetchCookie();
+        }
+        
+        
+    }, [], userCookie);
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -36,7 +47,10 @@ function Login(props) {
             emailid: emailId,
             password: password
         };
-        const checkInfo = await axios.post('http://localhost:5000/users/loginCheck', { info: infoObj });
+
+        const checkInfo = await axios.post('http://localhost:5000/users/loginCheck', { info: infoObj }, { withCredentials: true });
+        setUserCookie(checkInfo.data.user);
+        
 
         // 로그인 성공, 실패
         if (checkInfo.data) props.login();
