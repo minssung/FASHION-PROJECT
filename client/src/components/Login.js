@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import './CSS/Login.css';
 
 // Module
@@ -18,7 +18,13 @@ function Login(props) {
     const passwordRef = useRef();
 
     // shift key true & false
-    let shiftState;
+    let onShift;
+
+    const fetchCookie = useCallback( async () => {
+        const auth_JWT = await axios.post('http://localhost:5000/auth', { user: userCookie });
+        console.log(auth_JWT);
+
+    }, [userCookie])
 
     // < 아이디, 비밀번호 길이 제한 >
     // 초기에 한 번 실행
@@ -28,16 +34,9 @@ function Login(props) {
         emailRef.current.maxLength = 30;
         passwordRef.current.maxLength = 20;
 
-        if (userCookie) {
-            async function fetchCookie() {
-                const auth_JWT = await axios.post('http://localhost:5000/auth', { user: userCookie });
-                console.log(auth_JWT);
-            };
-            fetchCookie();
-        }
+        fetchCookie();
         
-        
-    }, [], userCookie);
+    }, [fetchCookie]);
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -61,7 +60,7 @@ function Login(props) {
     };
 
     const shiftKeyDown = (e) => {
-        shiftState = e.shiftKey;
+        onShift = e.shiftKey;
     }
 
     const onChangeEmailId = (e) => {
@@ -108,7 +107,7 @@ function Login(props) {
                 setPassword(string);
             }
 
-            if (regExpKorean[i].test(e.target.value) && shiftState) {
+            if (regExpKorean[i].test(e.target.value) && onShift) {
                 string = string.replace(korean[i], capitalLetter[i]);
                 setPassword(string);
             }
