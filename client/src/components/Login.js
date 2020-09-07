@@ -21,10 +21,10 @@ function Login(props) {
     let onShift;
 
     // const fetchCookie = useCallback( async () => {
-    //     const auth_JWT = await axios.post('http://localhost:5000/auth', { user: userCookie });
+    //     const auth_JWT = await axios.get('http://localhost:5000/auth');
     //     console.log(auth_JWT);
 
-    // }, [userCookie])
+    // }, [])
 
     // < 아이디, 비밀번호 길이 제한 >
     // 초기에 한 번 실행
@@ -34,12 +34,11 @@ function Login(props) {
         emailRef.current.maxLength = 30;
         passwordRef.current.maxLength = 20;
 
-        async function fetchCookie() {
-            const auth = await axios.get('http://localhost:5000/auth');
-            return auth
+        function fetchCookie() {
+            const result = axios.get('http://localhost:5000/verify');
+            console.log(result)
         }
-        fetchCookie();
-        
+        fetchCookie()
         
     }, []);
 
@@ -52,7 +51,7 @@ function Login(props) {
             password: password
         };
 
-        const checkInfo = await axios.post('http://localhost:5000/users/loginCheck', { info: infoObj }, { withCredentials: true });
+        const checkInfo = await axios.post('http://localhost:5000/loginCheck', { info: infoObj }, { withCredentials: true });
         setUserCookie(checkInfo.data.user);
         console.log(checkInfo.data)
 

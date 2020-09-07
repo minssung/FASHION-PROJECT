@@ -1,39 +1,35 @@
 var express = require('express');
 var router = express.Router();
+const models = require('../models');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+
+const User = models.user;
 
 // env
+const PASSWORD_SECRET_KEY = process.env.PASSWORD_SECRET_KEY;
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
-// 쿠키 이용하여 로그인 처리 먼저 하기
-// 로그인을 하고 난 후 보내는 API 요청마다 쿠키 정보를 검사하여 쿠키에 있는 jwt가 유효한지 검사
-const verifyToken = (token) => {
+// DB에서 해당 유저 찾아 유효성 검사
+async function loginCheck(info) {
     try {
-        console.log(token);
+        const hashPwd = crypto.createHmac('sha256', PASSWORD_SECRET_KEY)
+        .update(info.password)
+        .digest('hex');
 
-        // const clientToken = req.signedCookies.user;
+        const result = await User.findOne({
+            where: {
+                emailId: info.emailId,
+                password: hashPwd
+            }
+        });
         
-        // return clientToken
-        // const decoded = jwt.verify(clientToken, JWT_SECRET_KEY);
-
-        // console.log(clientToken);
-        // console.log(decoded);
-
-        // if (decoded) {
-        //     res.locals.userId = decoded.user_id;
-        //     next();
-
-        // } else {
-        //     res.status(401).json({ error: 'unauthorized' });
-
-        // }
-
-        return token
+        return result;
 
     } catch (err) {
-        res.status(401).json({ error: 'token expired' });
+        console.error('Login Check', err);
     }
-};
+}
 
 /* GET home page. */
 router.get('/cookie', (req, res) => {
@@ -41,18 +37,50 @@ router.get('/cookie', (req, res) => {
     res.send(req.signedCookies);
 });
 
-router.get('/auth', (req, res) => {
-    const cookieLoginObj = req.signedCookies;
-    console.log('cookie', req.signedCookies.user)
-    console.log('mberSn', cookieLoginObj.mberSn)
-  
-    if (cookieLoginObj && cookieLoginObj.mberSn !== '') {
-        console.log('있음');
-    } else {
-        console.log('없음');
+// 로그인 유효 검사
+router.post('/loginCheck', async (req, res, next) => {
+    try {
+        const result = await loginCheck(req.body.info);
+
+        if (result) {
+            const token = jwt.sign({
+                user_id: result.dataValues.emailId
+            }, JWT_SECRET_KEY, {
+                expiresIn: '24h'
+            });
+
+            const expiryDate = new Date( Date.now() + 60 * 60 * 1000 * 24 );
+            
+            res.cookie('user', token, { expires: expiryDate, signed: true });
+            res.status(201).send(req.signedCookies);
+
+        } else {
+            res.json({ error: 'invalid user' });
+        }
+
+    } catch (err) {
+        console.error(err);
+        next(err);
     }
-    // const result = verifyToken();
-    // res.send(result);
+});
+
+router.get('/verify', (req, res) => {
+    try {
+        let token = req.signedCookies.user;
+
+        let decoded = jwt.verify(token, JWT_SECRET_KEY);
+        console.log('Token Obj', decoded)
+        
+        if (decoded) {
+            res.send("권한이 있어서 API 수행 가능")
+        }
+        else {
+            res.send("권한이 없습니다.")
+        }
+    } catch (err) {
+        console.log('Token verify', err);
+    }
+    
 })
 
 module.exports = router;

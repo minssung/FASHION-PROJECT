@@ -86,10 +86,9 @@ router.post('/loginCheck', async (req, res, next) => {
     try {
         const result = await loginCheck(req.body.info);
 
-        console.log('result', result);
         if (result) {
             const token = jwt.sign({
-                user_id: result._id
+                user_id: result.dataValues.emailId
             }, JWT_SECRET_KEY, {
                 expiresIn: '24h'
             });
