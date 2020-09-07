@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './CSS/Login.css';
 
 // Module
@@ -20,11 +20,11 @@ function Login(props) {
     // shift key true & false
     let onShift;
 
-    const fetchCookie = useCallback( async () => {
-        const auth_JWT = await axios.post('http://localhost:5000/auth', { user: userCookie });
-        console.log(auth_JWT);
+    // const fetchCookie = useCallback( async () => {
+    //     const auth_JWT = await axios.post('http://localhost:5000/auth', { user: userCookie });
+    //     console.log(auth_JWT);
 
-    }, [userCookie])
+    // }, [userCookie])
 
     // < 아이디, 비밀번호 길이 제한 >
     // 초기에 한 번 실행
@@ -34,26 +34,31 @@ function Login(props) {
         emailRef.current.maxLength = 30;
         passwordRef.current.maxLength = 20;
 
+        async function fetchCookie() {
+            const auth = await axios.get('http://localhost:5000/auth');
+            return auth
+        }
         fetchCookie();
         
-    }, [fetchCookie]);
+        
+    }, []);
 
     const onSubmit = async (e) => {
         e.preventDefault();
         // 아이디와 비밀번호 검증 로직
         
         const infoObj = {
-            emailid: emailId,
+            emailId: emailId,
             password: password
         };
 
         const checkInfo = await axios.post('http://localhost:5000/users/loginCheck', { info: infoObj }, { withCredentials: true });
         setUserCookie(checkInfo.data.user);
-        
+        console.log(checkInfo.data)
 
         // 로그인 성공, 실패
-        if (checkInfo.data) props.login();
-        else if (!checkInfo.data && emailId && password) alert('등록되지 않은 이메일이거나 일치하지 않는 비밀번호입니다.');
+        if (!checkInfo.data.error) props.login();
+        else if (checkInfo.data.error && emailId && password) alert('등록되지 않은 이메일이거나 일치하지 않는 비밀번호입니다.');
         else if (!emailId) { alert('이메일을 입력해주세요.'); emailRef.current.focus(); }
         else if (!password) { alert('비밀번호를 입력해주세요.'); passwordRef.current.focus(); }
 

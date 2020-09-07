@@ -41,9 +41,18 @@ router.get('/cookie', (req, res) => {
     res.send(req.signedCookies);
 });
 
-router.post('/auth', (req, res) => {
-    const result = verifyToken(req.body.token);
-    res.send(result);
+router.get('/auth', (req, res) => {
+    const cookieLoginObj = req.signedCookies;
+    console.log('cookie', req.signedCookies.user)
+    console.log('mberSn', cookieLoginObj.mberSn)
+  
+    if (cookieLoginObj && cookieLoginObj.mberSn !== '') {
+        console.log('있음');
+    } else {
+        console.log('없음');
+    }
+    // const result = verifyToken();
+    // res.send(result);
 })
 
 module.exports = router;

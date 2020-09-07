@@ -1,8 +1,10 @@
-var express = require('express');
-var router = express.Router();
-const User = require('../models/users');
+const express = require('express');
+const router = express.Router();
+const models = require('../models');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
+
+const User = models.user;
 
 // env
 const PASSWORD_SECRET_KEY = process.env.PASSWORD_SECRET_KEY;
@@ -10,72 +12,68 @@ const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
 
 // DB에서 해당 유저 찾아 유효성 검사
 async function loginCheck(info) {
-    const hashPwd = crypto.createHmac('sha256', PASSWORD_SECRET_KEY)
-                    .update(info.password)
-                    .digest('hex');
+    try {
+        const hashPwd = crypto.createHmac('sha256', PASSWORD_SECRET_KEY)
+        .update(info.password)
+        .digest('hex');
 
-    const result = await User.findOne({
-        emailId: info.emailid,
-        password: hashPwd
-    }, (error, solve) => {
-        if (error) {
-            console.log(error);
-        } else if (solve) {
-            const id = solve._id;
-            return id;
-        }
-    });
+        const result = await User.findOne({
+            where: {
+                emailId: info.emailId,
+                password: hashPwd
+            }
+        });
+        
+        return result;
 
-    return result;
+    } catch (err) {
+        console.error('Login Check', err);
+    }
 }
 
 // 회원정보 이메일 중복 검사
 async function emailIdCheck(id) {
-    const result = await User.findOne({emailId: id}, (error, solve) => {
-        if (error) {
-            console.log(error);
-        } else if (solve) {
-            const id = solve._id;
-            return id;
-        }
-    });
+    try {
+        const result = await User.findOne({
+            where: { emailId: id }
+        });
+        return result
 
-    return result;
+    } catch (err) {
+        console.error('Email Id Check err', err);
+    }
 }
 
 // 회원정보 닉네임 중복 검사
 async function nickCheck(nick) {
-    const result = await User.findOne({nick: nick}, (error, solve) => {
-        if (error) {
-            console.log(error);
-        } else if (solve) {
-            const id = solve._id;
-            return id;
-        }
-    });
+    try {
+        const result = await User.findOne({
+            where: { nick: nick }
+        });
+        return result;
 
-    return result;
+    } catch (err) {
+        console.error('Nickname Check err', err);
+    }
 }
 
 // 회원정보 입력받아 DB에 저장
-function insert(info) {
-    const hashPwd = crypto.createHmac('sha256', PASSWORD_SECRET_KEY)
-                    .update(info.password)
-                    .digest('hex');
+async function insert(info) {
+    try {
+        const hashPwd = crypto.createHmac('sha256', PASSWORD_SECRET_KEY)
+        .update(info.password)
+        .digest('hex');
 
-    const newUser = new User({
-        emailId: info.emailId,
-        password: hashPwd,
-        nick: info.nick,
-    });
+        const result = await User.create({
+            emailId: info.emailId,
+            password: hashPwd,
+            nick: info.nick
+        });
+        return result
 
-    newUser.save(function(error, data){
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('회원정보 저장 완료');
-        }
-    });
+    } catch (err) {
+        console.error('User DB Insert err', err);
+    }
 }
 
 /* GET users listing. */
@@ -88,25 +86,27 @@ router.post('/loginCheck', async (req, res, next) => {
     try {
         const result = await loginCheck(req.body.info);
 
+        console.log('result', result);
         if (result) {
             const token = jwt.sign({
                 user_id: result._id
             }, JWT_SECRET_KEY, {
-                expiresIn: '1h'
+                expiresIn: '24h'
             });
+
+            const expiryDate = new Date( Date.now() + 60 * 60 * 1000 * 24 );
             
-            res.cookie('user', token, { signed: true });
+            res.cookie('user', token, { expires: expiryDate, signed: true });
             res.status(201).send(req.signedCookies);
 
         } else {
-            res.status(400).json({ error: 'invalid user' });
+            res.json({ error: 'invalid user' });
         }
 
     } catch (err) {
         console.error(err);
         next(err);
     }
-
 });
 
 // 회원정보 입력
