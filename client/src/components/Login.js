@@ -5,6 +5,7 @@ import './CSS/Login.css';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
+import { useCookies } from 'react-cookie';
 
 function Login(props) {
     const [emailId, setEmailId] = useState('');
@@ -13,6 +14,7 @@ function Login(props) {
     const [passwordErr, setPasswordErr] = useState(false);
 
     const [userCookie, setUserCookie] = useState('');
+    const [cookies, setCookies] = useCookies(['name']);
 
     const emailRef = useRef();
     const passwordRef = useRef();
@@ -34,13 +36,29 @@ function Login(props) {
         emailRef.current.maxLength = 30;
         passwordRef.current.maxLength = 20;
 
-        function fetchCookie() {
-            const result = axios.get('http://localhost:5000/verify');
-            console.log(result)
+        async function fetchCookie() {
+            // const result = axios.get('http://localhost:5000/verify');
+            // console.log(result)
+
+            // const token = await axios.get('http://localhost:5000/getToken');
+            // console.log(token)
+
+            setCookies('name', 'user', { path: '/' });
+            console.log(cookies.name);
+
+            // const result = await axios({
+            //     method: 'post',
+            //     url: 'http://localhost:5000/verify',
+            //     headers: {
+            //         'content-type' : 'text/json',
+            //         'x-access-token': userCookie
+            //     }
+            // });
+            // console.log(result);
         }
         fetchCookie()
         
-    }, []);
+    }, [cookies], [setCookies]);
 
     const onSubmit = async (e) => {
         e.preventDefault();

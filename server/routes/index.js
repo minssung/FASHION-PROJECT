@@ -64,9 +64,10 @@ router.post('/loginCheck', async (req, res, next) => {
     }
 });
 
-router.get('/verify', (req, res) => {
+router.post('/verify', (req, res) => {
     try {
         let token = req.signedCookies.user;
+        // console.log('headers', req.headers)
 
         let decoded = jwt.verify(token, JWT_SECRET_KEY);
         console.log('Token Obj', decoded)
@@ -81,6 +82,12 @@ router.get('/verify', (req, res) => {
         console.log('Token verify', err);
     }
     
+});
+
+router.get('/getToken', (req, res) => {
+    const token = req.signedCookies.user;
+    console.log(token)
+    res.send(token);
 })
 
 module.exports = router;
