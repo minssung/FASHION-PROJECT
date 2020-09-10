@@ -1,0 +1,101 @@
+@font-face {
+    font-family: 'paybooc-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/paybooc-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+body{
+    font-family: 'paybooc-Bold';
+}
+.left-page{
+    float: left;
+    width: 60%;
+    min-width: 600px;
+    height: 1080px;
+}
+.left-page .header{
+    width: 100%;
+    height: 120px;
+    background-color: white;
+    border-bottom-style:solid ;
+    border-bottom-width: 5px;
+    border-bottom-color: #424141;
+}
+.left-page .header .logo{
+    padding-top: 30px;
+    padding-left: 40px;
+}
+.left-page .header .login-btn{
+    position: relative;
+    float: right;
+    top: -60px;
+    right: 40px;
+}
+.left-page-posting{
+    text-align: center;
+}
+.right-page{
+    float: left;
+    width: 40%;
+    min-width: 400px;
+    height: 1080px;
+    box-shadow: 0 -3px 0 3px #424141;
+    
+}
+.right-search-bar{
+    width: 100%;
+    height: 130px;
+}
+
+.search-bar{
+    margin-top: 30px;
+    margin-right: 3%;
+    float:right;
+    height: 100px;
+}
+.search-bar input{
+    height: 30px;
+    border-radius: 20px;
+    padding-left: 20px;
+}
+.search-bar img{
+    position: relative;
+    top: 9px;
+}
+.tag-selection{
+    margin-left: 7%;
+    font-size: 18px;
+}
+.tag-selection .tag-selection-box{
+    width: 93.5%;
+    height: 300px;
+    margin-top: 10px;
+    border: 1px solid black;
+    border-radius: 18px;
+}
+.tag-selection-box ul{
+    float: left;
+    
+}
+.tag-selection-box ul li{
+    margin-left: 50px;
+    margin-top: 10px;
+}
+.hot-posting{
+    margin-left: 7%;
+    font-size: 18px;
+    margin-top: 30px;
+}
+.hot-posting .hot-posting-box{
+    width: 93.5%;
+    height: 450px;
+    margin-top: 10px;
+    border: 1px solid black;
+    border-radius: 18px;
+}
+.footer{
+    width: 100%;
+    border-top-style: solid;
+    border-width: 0.5px;
+    float: left;
+}
