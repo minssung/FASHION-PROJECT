@@ -37,7 +37,7 @@ class Home extends Component{
                 <div className="tag-selection-box">
                     <from>
                         <ul>
-                            <li><Button>상의</Button></li>
+                            <li><Button >상의</Button></li>
                             <li><Button>반팔</Button></li>
                             <li><Button>셔츠</Button></li>
                             <li><Button>후드티</Button></li>
