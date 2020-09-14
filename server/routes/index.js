@@ -66,8 +66,8 @@ router.post('/loginCheck', async (req, res, next) => {
 
 router.post('/verify', (req, res) => {
     try {
-        let token = req.signedCookies.user;
-        // console.log('headers', req.headers)
+        let token = req.headers['x-access-token'];
+        console.log('headers', req.headers['x-access-token']);
 
         let decoded = jwt.verify(token, JWT_SECRET_KEY);
         console.log('Token Obj', decoded)

@@ -13,7 +13,6 @@ function Login(props) {
     const [emailIdErr, setEmailIdErr] = useState(false);
     const [passwordErr, setPasswordErr] = useState(false);
 
-    const [userCookie, setUserCookie] = useState('');
     const [cookies, setCookies] = useCookies(['name']);
 
     const emailRef = useRef();
@@ -43,18 +42,18 @@ function Login(props) {
             // const token = await axios.get('http://localhost:5000/getToken');
             // console.log(token)
 
-            setCookies('name', 'user', { path: '/' });
-            console.log(cookies.name);
+            // setCookies('name', 'user', { path: '/' });
+            console.log('Cookie: ', cookies.user);
 
-            // const result = await axios({
-            //     method: 'post',
-            //     url: 'http://localhost:5000/verify',
-            //     headers: {
-            //         'content-type' : 'text/json',
-            //         'x-access-token': userCookie
-            //     }
-            // });
-            // console.log(result);
+            const result = await axios({
+                method: 'post',
+                url: 'http://localhost:5000/verify',
+                headers: {
+                    'content-type' : 'text/json',
+                    'x-access-token': cookies.user
+                }
+            });
+            console.log(result);
         }
         fetchCookie()
         
@@ -70,7 +69,6 @@ function Login(props) {
         };
 
         const checkInfo = await axios.post('http://localhost:5000/loginCheck', { info: infoObj }, { withCredentials: true });
-        setUserCookie(checkInfo.data.user);
         console.log(checkInfo.data)
 
         // 로그인 성공, 실패
