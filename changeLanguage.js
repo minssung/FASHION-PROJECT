@@ -1,6 +1,5 @@
 /** 
- * Input 태그에 한국어 입력 시 영문으로 변환 
- * 단점: inputRef로 최대 문자수 지정했음에도 초과하는 문제 발생
+ * Input 태그에 한국어 입력 시 영문으로 변환
  * */
 
 import React from 'react';
@@ -31,27 +30,26 @@ function Login(props) {
 
     const changeKorean = (e) => {
         const korean = ['ㅂ', 'ㅃ', 'ㅈ', 'ㅉ', 'ㄷ', 'ㄸ', 'ㄱ', 'ㄲ', 'ㅅ', 'ㅆ', 'ㅛ', 'ㅕ', 'ㅑ', 'ㅐ', 'ㅒ', 'ㅔ', 'ㅖ', 'ㅁ', 'ㄴ', 'ㅇ', 'ㄹ', 'ㅎ', 'ㅗ', 'ㅓ', 'ㅏ', 'ㅣ', 'ㅋ', 'ㅌ', 'ㅊ', 'ㅍ', 'ㅠ', 'ㅜ', 'ㅡ'];
+        const english = ['q', 'Q', 'w', 'W', 'e', 'E', 'r', 'R', 't', 'T', 'y', 'u', 'i', 'o', 'O', 'p', 'P', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm'];
+        const capitalLetter = ['Q', 'Q', 'W', 'W', 'E', 'E', 'R', 'R', 'T', 'T', 'Y', 'U', 'I', 'O', 'O', 'P', 'P', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Z', 'X', 'C', 'V', 'B', 'N', 'M'];
 
+        // 한국어만 return 되는 정규식 생성
         let regExpKorean = [];
         for (let i = 0; i < korean.length; i++) {
             regExpKorean.push(new RegExp(`^(\\w+${korean[i]})|(${korean[i]}\\w+)|(${korean[i]})$`));
         }
         
-        const english = ['q', 'Q', 'w', 'W', 'e', 'E', 'r', 'R', 't', 'T', 'y', 'u', 'i', 'o', 'O', 'p', 'P', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm'];
-        const capitalLetter = ['Q', 'Q', 'W', 'W', 'E', 'E', 'R', 'R', 'T', 'T', 'Y', 'U', 'I', 'O', 'O', 'P', 'P', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Z', 'X', 'C', 'V', 'B', 'N', 'M'];
-        
         for (let i = 0; i < regExpKorean.length; i++) {
+            let string = e.target.value;
 
             if (regExpKorean[i].test(e.target.value)) {
-                const string = e.target.value.replace(korean[i], english[i]);
-                console.log(korean[i], '정규식 변환 ->', string);
-                setEmailId(string);
+                string = string.replace(korean[i], english[i]);
+                setPassword(string);
             }
 
-            if (regExpKorean[i].test(e.target.value) && shiftState) {
-                const string = e.target.value.replace(korean[i], capitalLetter[i]);
-                console.log(korean[i], '정규식 변환 ->', string);
-                setEmailId(string);
+            if (regExpKorean[i].test(e.target.value) && onShift) {
+                string = string.replace(korean[i], capitalLetter[i]);
+                setPassword(string);
             }
         }
     }
