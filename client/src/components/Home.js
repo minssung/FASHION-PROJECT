@@ -12,7 +12,7 @@ class Home extends Component{
             <div className="left-page">
                 <div className="header">
                     <div className="logo">
-                        <img src="/images/logo2.PNG" alt="logo"/>
+                        <img src="/images/logo3.PNG" alt="logo"/>
                     </div>
                     <div className="login-btn">
                         <Button type="submit" variant="contained" color="primary">로그인</Button>
