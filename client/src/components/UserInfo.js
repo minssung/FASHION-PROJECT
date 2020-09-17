@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
 import './CSS/UserInfo.css';
-import Setting from '../image/setting.PNG';
-import HomeIcon from '../image/home-icon.png';
-import UserPhoto from '../image/user-photo.png';
-import { Button } from '@material-ui/core';
-import {IconButton} from '@material-ui/core';
-import { Typography} from '@material-ui/core';
-
+import { Button, IconButton, Typography } from '@material-ui/core';
 
 class UserInfo extends Component{
     render(){
@@ -16,12 +10,12 @@ class UserInfo extends Component{
                     <div className="logo"></div>
                     <div className="home-icon">
                         <IconButton>
-                            <img width="40px" src={HomeIcon}/>
+                            <img width="40px" src="/images/home-icon.png" alt="homeicon"/>
                         </IconButton>
                     </div>
                     <div className="user-profile">
                         <IconButton>
-                            <img width="45px" src={UserPhoto}/>
+                            <img width="45px" src="/images/user-photo.png" alt="userphoto"/>
                         </IconButton>
                     </div>
                 </div>
@@ -31,7 +25,7 @@ class UserInfo extends Component{
                         <div className="user-profile-img"></div>
                         <div className="user-profile-setting">
                             <IconButton>
-                            <img width="30px" src={Setting}/>
+                            <img width="30px" src="/images/setting.PNG" alt="setting"/>
                             </IconButton>
                         </div>
                         <p className="user-name">username</p>

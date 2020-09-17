@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const models = require('../models');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
@@ -23,7 +23,6 @@ async function loginCheck(info) {
                 password: hashPwd
             }
         });
-        
         return result;
 
     } catch (err) {
@@ -31,14 +30,8 @@ async function loginCheck(info) {
     }
 }
 
-/* GET home page. */
-router.get('/cookie', (req, res) => {
-    res.cookie('cookies', 'is sweet', { signed: true });
-    res.send(req.signedCookies);
-});
-
 // 로그인 유효 검사
-router.post('/loginCheck', async (req, res, next) => {
+router.post('/login', async (req, res, next) => {
     try {
         const result = await loginCheck(req.body.info);
 
@@ -50,9 +43,9 @@ router.post('/loginCheck', async (req, res, next) => {
             });
 
             const expiryDate = new Date( Date.now() + 60 * 60 * 1000 * 24 );
-            
-            res.cookie('user', token, { expires: expiryDate, signed: true });
-            res.status(201).send(req.signedCookies);
+         
+            res.cookie('user', token, { expires: expiryDate, signed: false });
+            res.status(201).send(req.cookies);
 
         } else {
             res.json({ error: 'invalid user' });
@@ -64,23 +57,28 @@ router.post('/loginCheck', async (req, res, next) => {
     }
 });
 
-router.get('/verify', (req, res) => {
+router.post('/verify', (req, res) => {
     try {
-        let token = req.signedCookies.user;
+        let token = req.headers['x-access-token'];
 
-        let decoded = jwt.verify(token, JWT_SECRET_KEY);
-        console.log('Token Obj', decoded)
-        
-        if (decoded) {
+        if (token !== 'undefined') {
+            let decoded = jwt.verify(token, JWT_SECRET_KEY);
+            console.log('Token Obj', decoded);
             res.send("권한이 있어서 API 수행 가능")
-        }
-        else {
+
+        } else {
             res.send("권한이 없습니다.")
         }
+        
     } catch (err) {
         console.log('Token verify', err);
     }
-    
+});
+
+router.get('/getToken', (req, res) => {
+    const token = req.signedCookies.user;
+    console.log(token)
+    res.send(token);
 })
 
 module.exports = router;

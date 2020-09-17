@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import './CSS/Home.css';
-import Logo from '../image/logo2.PNG';
 import Button from '@material-ui/core/Button';
-import Input from '@material-ui/core/Input';
-import SearchIcon from '../image/search-icon.png';
-import PostingAddBtn from '../image/posting-add-btn.png';
-import { Typography, IconButton} from '@material-ui/core';
+// import Input from '@material-ui/core/Input';
+import { Typography, IconButton } from '@material-ui/core';
 
 class PostingAdd extends Component{
     
@@ -16,7 +13,7 @@ class PostingAdd extends Component{
         <div className="left-page">
             <div className="header">
                 <div className="logo">
-                    {/* <img src={Logo} height="70px"/> */}
+                    {/* <img src="/images/logo2.PNG" height="70px"/> */}
                 </div>
             </div>
             

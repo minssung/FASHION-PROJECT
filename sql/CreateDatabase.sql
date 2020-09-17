@@ -1,1 +1,1 @@
-CREATE DATABASE bpop_development default CHARACTER SET UTF8;
+CREATE DATABASE bpop_development CHARACTER SET utf8mb4 collate utf8mb4_general_ci;

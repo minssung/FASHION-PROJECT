@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import './CSS/Home.css';
-import Logo from '../image/logo2.PNG';
 import Button from '@material-ui/core/Button';
-import Input from '@material-ui/core/Input';
-import SearchIcon from '../image/search-icon.png';
-import PostingAddBtn from '../image/posting-add-btn.png';
-import { Typography, IconButton} from '@material-ui/core';
+import { Typography, IconButton } from '@material-ui/core';
 
 
 class Home extends Component{
@@ -16,7 +12,7 @@ class Home extends Component{
             <div className="left-page">
                 <div className="header">
                     <div className="logo">
-                        {/* <img src={Logo} height="70px"/> */}
+                        <img src="/images/logo2.PNG" alt="logo"/>
                     </div>
                     <div className="login-btn">
                         <Button type="submit" variant="contained" color="primary">로그인</Button>
@@ -25,7 +21,7 @@ class Home extends Component{
                 <div className="left-page-posting">
                     <div className="posting-add-btn">
                         <IconButton>
-                            <img height="40px" src={PostingAddBtn}/>
+                            <img height="40px" src="/images/posting-add-btn.png" alt="addposting"/>
                         </IconButton>
                     </div>
                     sns posting 화면
@@ -36,14 +32,14 @@ class Home extends Component{
                     <form className="search-bar">
                         <input type="text" placeholder="Search..." aria-label="Search" />
                         <IconButton>
-                        <img src={SearchIcon}/>
+                        <img src="/images/search-icon.png" alt="searchicon"/>
                         </IconButton>
                     </form>
                 </div>
                 <div className="tag-selection">
                     <p>원하는 태그 선택</p>
                     <div className="tag-selection-box">
-                        <from>
+                        <form>
                             <ul>
                             <div className="line4"></div>
                                 <li><Button style={{fontSize:'18px',fontWeight:'bold'}}>상의</Button></li>
@@ -80,7 +76,7 @@ class Home extends Component{
                                 <li><Button>샌들</Button></li>
                                 <li><Button>기타</Button></li>
                             </ul>
-                        </from>
+                        </form>
                     </div>
                 </div>
                 <div className="hot-posting">

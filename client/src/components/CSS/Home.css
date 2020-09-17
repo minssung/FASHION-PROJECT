@@ -10,7 +10,9 @@ body{
     background-size: 100%;
 }
 .full-page{
+    /* display: flex; */
     width: 1200px;
+    /* height: 1080px; */
     margin-left: auto;
     margin-right: auto;
     
