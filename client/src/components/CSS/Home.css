@@ -57,7 +57,7 @@ body{
     position: relative;
     width: 70px;
     float: right;
-    top: -20px;
+    top: 0px;
     left: 50px;
 }
 .right-page{
@@ -171,11 +171,11 @@ body{
 
 
 .nullbox{
-    height: 120px;
+    height: 100px;
 }
 textarea{
     width: 395px;
-    height: 430px;
+    height: 330px;
     margin-top: 10px;
     border: 1px solid black;
     border-radius: 18px;
