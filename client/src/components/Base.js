@@ -33,6 +33,7 @@ function Base() {
             console.log(result);
         }
         fetchCookie()
+        
     }, [cookies], [setCookies]);
 
     return (
