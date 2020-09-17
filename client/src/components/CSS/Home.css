@@ -1,0 +1,186 @@
+@font-face {
+    font-family: 'paybooc-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/paybooc-Bold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+body{
+    font-family: 'paybooc-Bold';
+    background-color:#F3F5F5;
+    background-size: 100%;
+}
+.full-page{
+    /* display: flex; */
+    width: 1200px;
+    /* height: 1080px; */
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+.left-page{
+    float: left;
+    width: 60%;
+    min-width: 600px;
+    height: 1080px;
+    background-color:#F2F8F9;
+    background-size: 100%;
+    box-shadow: 0 -2px 0px 2px #424141;
+}
+.left-page .header{
+    width: 100%;
+    height: 120px;
+    border-bottom-style:solid ;
+    border-bottom-width: 5px;
+    border-bottom-color: #424141;
+}
+.left-page .header .logo{
+    padding-top: 30px;
+    margin-top: 20px;
+}
+.left-page .header .login-btn{
+    position: relative;
+    float: right;
+    top: -170px;
+    right: 40px;
+}
+.left-page-posting{
+    text-align: center;
+    height: auto;
+}
+.posting-add-btn{
+    position: relative;
+    width: 70px;
+    float: right;
+    top: -20px;
+    left: 50px;
+}
+.right-page{
+    float: left;
+    width: 40%;
+    min-width: 400px;
+    height: 1080px;
+    box-shadow: 0 -2px 0 2px #424141;
+    background-color:#F2F8F9;
+    background-size: 100%;
+    
+}
+.right-search-bar{
+    width: 100%;
+    height: 130px;
+}
+
+.search-bar{
+    margin-top: 30px;
+    margin-right: 3%;
+    float:right;
+    height: 100px;
+}
+.search-bar input{
+    height: 30px;
+    border-radius: 20px;
+    padding-left: 20px;
+}
+.search-bar img{
+    position: relative;
+}
+.tag-selection{
+    margin-left: 7%;
+    font-size: 18px;
+}
+.line1{
+    width: 0px;
+    height: 190px;
+    position: absolute;
+    border: 1px solid #DDE1E1;
+    margin-left: 107px;
+    margin-top: 70px;
+}
+.line2{
+    width: 0px;
+    height: 190px;
+    position: absolute;
+    border: 1px solid #DDE1E1;
+    margin-left: 205px;
+    margin-top: 70px;
+}
+.line3{
+    width: 0px;
+    height: 190px;
+    position: absolute;
+    border: 1px solid #DDE1E1;
+    margin-left: 310px;
+    margin-top: 70px;
+}
+.line4{
+    width: 355px;
+    height: 0px;
+    position: absolute;
+    border: 1px solid #DDE1E1;
+    margin-left: 30px;
+    margin-top: 50px;
+}
+.tag-selection .tag-selection-box{
+    width: 93.5%;
+    height: 300px;
+    margin-top: 10px;
+    border: 1px solid black;
+    border-radius: 18px;
+    background-color:white;
+    background-size: 100%;
+}
+.tag-selection-box ul{
+    float: left;
+}
+.tag-selection-box ul li{
+    margin-left: 30px;
+    margin-top: 10px;
+    
+}
+.hot-posting{
+    margin-left: 7%;
+    font-size: 18px;
+    margin-top: 30px;
+}
+.hot-posting .hot-posting-box{
+    width: 93.5%;
+    height: 450px;
+    margin-top: 10px;
+    border: 1px solid rgb(88, 84, 84);
+    border-radius: 18px;
+    background-color:white;
+    background-size: 100%;
+}
+
+.footer{
+    width: 100%;
+    border-top-style: solid;
+    border-width: 0.5px;
+    float: left;
+}
+.footer img{
+    float: left;
+}
+
+/*추가페이지 영역/////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
+
+
+.nullbox{
+    height: 120px;
+}
+textarea{
+    width: 395px;
+    height: 430px;
+    margin-top: 10px;
+    border: 1px solid black;
+    border-radius: 18px;
+    background-color:white;
+    background-size: 100%;
+    font-size: 17px;
+    padding-top: 20px;
+    padding-left: 15px;
+}
+.save{
+    float: right;
+    margin-right: 40px;
+    margin-top: 20px;
+}
