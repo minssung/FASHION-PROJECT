@@ -5,21 +5,52 @@ import Button from '@material-ui/core/Button';
 import { Typography, IconButton } from '@material-ui/core';
 
 class PostingAdd extends Component{
-    
+    constructor(props){
+        super(props);
+        this.state={
+            file: "",
+            preview: ""
+        }
+    }
+    //onChange에서 호출 되는 함수 
+    FileOnChange = (event) => {
+        event.preventDefault();
+        let reader = new FileReader();
+        let file = event.target.files[0];
+        reader.onloadend = () => {
+          this.setState({
+            file : file,
+            preview : reader.result
+          })
+        }
+        reader.readAsDataURL(file);
+      }
+
     render(){
+        let profile_preview = null;
+        if(this.state.file !== ''){
+            profile_preview = <img className='profile_preview' src={this.state.preview}></img>
+        }
      return (
         <div className="full-page">
         <from>
         <div className="left-page">
             <div className="header">
                 <div className="logo">
-                    {/* <img src="/images/logo2.PNG" height="70px"/> */}
+                    <img src="/images/logo3.PNG" alt="logo"/>
                 </div>
             </div>
-            
             <div className="left-page-posting">
-                이미지 선택 창 업데이트 예정
+            <input type="file" 
+                name="upload_img" 
+                accept="image/jpg,impge/png,image/jpeg,image/gif"
+                //onChange는 input에 입력돤값이 변경될때마다 실행
+                onChange={this.FileOnChange}/>
             </div>
+            <div className="preview-box">
+                {profile_preview}
+            </div>
+            
         </div>
         <div className="right-page">
             <div className="nullbox"></div>
