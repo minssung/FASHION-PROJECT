@@ -9,6 +9,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { useNeonCheckboxStyles } from '@mui-treasury/styles/checkbox/neon';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 function Signup(props) {
     const [emailId, setEmailId] = useState('');
@@ -352,7 +353,9 @@ function Signup(props) {
 
                         <div className="signup-btn">
                             <Button type="submit" variant="outlined">가입</Button>
-                            <Button onClick={props.signup} variant="outlined" color="primary">취소</Button>
+                            <Link to="/" style={{textDecoration: 'none'}}>
+                                <Button onClick={props.signup} variant="outlined" color="primary">취소</Button>
+                            </Link>
                         </div>
                         
                     </form>
@@ -360,7 +363,7 @@ function Signup(props) {
             </div>  
             {
                 insertModal && <>
-                    <div className="signup-modal-overay"></div>
+                    <div className="signup-modal-overlay"></div>
                     <div className="signup-modal">
                         <div className="signup-modal-comment">
                             회원가입이 완료되었습니다.

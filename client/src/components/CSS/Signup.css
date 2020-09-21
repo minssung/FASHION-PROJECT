@@ -1,11 +1,10 @@
 /* 회원가입 폼 전체 */
-/* .signup-container {
-    display: flex;
+.signup-container {
+    /* display: flex;
     width: 100%;
-    height: 100%;;
-    flex-direction: column;
-    padding-top: 50px;
-} */
+    height: 100%; */
+    margin: auto auto;
+}
 
 /* 회원가입 약관동의 텍스트 CSS */
 .signup-term-container div:nth-child(1) {
@@ -98,7 +97,7 @@
     z-index: 2000;
 }
 
-.signup-modal-overay {
+.signup-modal-overlay {
     position: fixed;
     width: 100%;
     height: 100%;

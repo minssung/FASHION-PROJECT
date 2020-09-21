@@ -1,17 +1,34 @@
 import React, { Component } from 'react';
 import './CSS/UserInfo.css';
 import { Button, IconButton, Typography } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 class UserInfo extends Component{
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            
+        }
+
+    }
+
+    removeCookie() {
+        document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        window.location = "/";
+    }
+
     render(){
         return (
             <div className="all">
                 <div className="header">
                     <div className="logo"></div>
                     <div className="home-icon">
-                        <IconButton>
-                            <img width="40px" src="/images/home-icon.png" alt="homeicon"/>
-                        </IconButton>
+                        <Link to="/">
+                            <IconButton>
+                                <img width="40px" src="/images/home-icon.png" alt="homeicon"/>
+                            </IconButton>
+                        </Link>
                     </div>
                     <div className="user-profile">
                         <IconButton>
@@ -38,7 +55,10 @@ class UserInfo extends Component{
                             <p>user coment</p>
                         </div>
                         <div className="profile-edit">
-                        <Button variant="outlined">프로필 편집</Button>
+                            <Button variant="outlined">프로필 편집</Button>
+                        </div>
+                        <div>
+                            <button onClick={() => this.removeCookie()}>로그아웃</button>
                         </div>
                     </div>
                     <div className="user-posting">
