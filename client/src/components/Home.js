@@ -30,6 +30,7 @@ class Home extends Component{
                                 !this.props.user ?
                                 <Button type="submit" onClick={() => {this.setState({ loginModal: true });}} variant="contained" color="primary">로그인</Button>
                                 :
+                                
                                 <Link to={`/mypage/nick`} style={{textDecoration: 'none'}}>
                                     <div className="mypage-btn">My</div>
                                 </Link>

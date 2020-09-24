@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 // import Input from '@material-ui/core/Input';
 import { Typography, IconButton } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 class PostingAdd extends Component{
     constructor(props){
@@ -63,8 +64,21 @@ class PostingAdd extends Component{
             [e.target.name]:e.target.value
         });
       }
+
+      //SaveData
+      SaveData(){
+        console.log(this.state);
+        const postingData = this.state;
+            // image : this.state.file,
+            // top_tag : this.state.top_tag,
+            // outer_tag : this.state.outer_tag,
+            // bottom_tag : this.state.bottom_tag,
+            // shoes_tag : this.state.shoes_tag,
+        axios.post('http://localhost:5000/posting/insert', {posting_data: postingData});
+      }
       componentDidUpdate(){
           console.log(this.state)
+          
       }
 
     render(){
@@ -146,7 +160,7 @@ class PostingAdd extends Component{
                 <p>내용 입력</p>
                     <textarea value={this.state.content} onChange={this.ContentChange.bind(this)} name="content"></textarea>
                     <div className="save">
-                        <Button variant="contained" size="large" name="save">저장</Button>
+                        <Button variant="contained" size="large" name="save" onClick={this.SaveData.bind(this)}>저장</Button>
                     </div>
             </div>
         </div>
