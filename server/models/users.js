@@ -16,6 +16,21 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
         },
 
+        photo: {
+            type: DataTypes.BLOB,
+            allowNull: true,
+        },
+
+        follower: {
+            type: DataTypes.JSON,
+            allowNull: true,
+        },
+
+        follow: {
+            type: DataTypes.JSON,
+            allowNull: true,
+        },
+
         created_at: {
             type: DataTypes.DATE,
             allowNull: false,
