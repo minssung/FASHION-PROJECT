@@ -53,9 +53,28 @@ async function insert(info) {
     }
 }
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
+// 유저 1명 정보
+router.get('/one', async (req, res) => {
+    try {
+        const result = await User.findOne({ where: {
+            emailId: req.query.emailId
+        }});
 
+        res.send(result);
+    } catch (err) {
+        console.log('One user get data', err);
+    }
+});
+
+// 유저 전체 정보
+router.get('/all', async (req, res) => {
+    try {
+        const result = await User.findAll();
+        
+        res.send(result);
+    } catch (err) {
+        console.log('All user get data', err);
+    }
 });
 
 // 회원정보 입력

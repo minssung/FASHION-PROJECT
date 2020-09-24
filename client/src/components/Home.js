@@ -10,11 +10,19 @@ class Home extends Component{
         super(props);
         this.state = {
             loginModal: false,
+            nick: '',
         }
+        
+    }
+
+    componentDidMount() {
+        this.setState({
+            nick: this.props.user.nick
+        })
     }
     
     render(){
-        const { loginModal } = this.state;
+        const { loginModal, nick } = this.state;
 
         return (
             <div className="full-page">
@@ -28,7 +36,7 @@ class Home extends Component{
                                 !this.props.user ?
                                 <Button type="submit" onClick={() => {this.setState({ loginModal: true });}} variant="contained" color="primary">로그인</Button>
                                 :
-                                <Link to={`/mypage/nick`} style={{textDecoration: 'none'}}>
+                                <Link to={`/mypage/${nick}`} style={{textDecoration: 'none'}}>
                                     <div className="mypage-btn">My</div>
                                 </Link>
                             }

@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
-import './CSS/UserInfo.css';
+import './CSS/Mypage.css';
 import { Button, IconButton, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
-class UserInfo extends Component{
+class Mypage extends Component{
 
     constructor(props) {
         super(props);
         this.state = {
             
         }
-
     }
 
     removeCookie() {
@@ -20,9 +19,11 @@ class UserInfo extends Component{
 
     render(){
         return (
-            <div className="all">
-                <div className="header">
-                    <div className="logo"></div>
+            <div className="mypage-container">
+                <div className="mypage-header">
+                    <div className="mypage-logo">
+                        <img src="/images/LOGO3.PNG" alt="logo" />
+                    </div>
                     <div className="home-icon">
                         <Link to="/">
                             <IconButton>
@@ -36,42 +37,49 @@ class UserInfo extends Component{
                         </IconButton>
                     </div>
                 </div>
+
                 <div className="user-area">
                     <div className="user-info">
-                        <div className="myinfo">내 정보</div>
                         <div className="user-profile-img"></div>
                         <div className="user-profile-setting">
                             <IconButton>
                             <img width="30px" src="/images/setting.PNG" alt="setting"/>
                             </IconButton>
                         </div>
-                        <p className="user-name">username</p>
-                        <div className="user-history">
-                            <p className="history1">게시글</p>
-                            <p className="history2">팔로워</p> 
-                            <p className="history3">팔로우</p>
-                        </div>
-                        <div className="user-coment">
-                            <p>user coment</p>
-                        </div>
-                        <div className="profile-edit">
+                        <div className="user-name">nick</div>
+                        <div className="user-comment">user comment</div>
+                        <table className="user-history">
+                            <tr>
+                                <td>게시글</td>
+                                <td>팔로워</td>
+                                <td>팔로우</td>
+                            </tr>
+                            <tr>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
+                        </table>
+                        
+                        {/* <div className="profile-edit">
                             <Button variant="outlined">프로필 편집</Button>
-                        </div>
-                        <div>
-                            <button onClick={() => this.removeCookie()}>로그아웃</button>
+                        </div> */}
+                        <div className="mypage-logout">
+                            <button onClick={() => this.removeCookie()}>로그아웃(임시)</button>
                         </div>
                     </div>
                     <div className="user-posting">
                         유저 포스팅
                     </div>
                 </div>
+                
                 <footer className="footer">
-                <Typography variant="body2" color="textSecondary" align="center">
-                {'긴머리와 파마머리 '+new Date().getFullYear()+' 졸업작품 프로젝트'}
-                </Typography>
+                    <Typography variant="body2" color="textSecondary" align="center">
+                        {'긴머리와 파마머리 '+new Date().getFullYear()+' 졸업작품 프로젝트'}
+                    </Typography>
                 </footer>
             </div>
         )
     }
 } 
-export default UserInfo;
+export default Mypage;
