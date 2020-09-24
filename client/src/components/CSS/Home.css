@@ -10,62 +10,125 @@ body{
     background-size: 100%;
 }
 .full-page{
-    /* display: flex; */
     width: 1200px;
-    /* height: 1080px; */
+    height: 100%;
     margin-left: auto;
     margin-right: auto;
     
 }
 .left-page{
     float: left;
-    width: 60%;
+    width: 59%;
     min-width: 600px;
     height: 945px;
     background-color:#F2F8F9;
     background-size: 100%;
-    box-shadow: 0 -2px 0px 2px #424141;
+    border: 1px solid black;
 }
 .left-page .header{
     width: 100%;
-    height: 90px;
-    border-bottom-style:solid ;
-    border-bottom-width: 5px;
+    height: 12%;
+    border-bottom-style:solid;
+    border-bottom-width: 3px;
     border-bottom-color: #424141;
 }
-.left-page .header .logo{
-    padding-top: 30px;
-    margin-top: 20px;
+.logo{
+    display: flex;
+    width: 100%;
+    height: 100%;
 }
-.left-page .header .logo img{
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    margin-top: -40px;
+.logo img{
+    width: 150px;
+    height: 80px;
+    margin: auto auto;
 }
 .left-page .header .login-btn{
     position: relative;
     float: right;
-    top: -100px;
-    right: 40px;
+    top: -50px;
+    right: 20px;
 }
+
+.mypage-btn {
+    cursor: pointer;
+}
+
 .left-page-posting{
     text-align: center;
     height: auto;
 }
+
+/* 로그인 모달 css */
+.login-modal-overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+}
+
+.login-modal {
+    width: 500px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-left: -250px;
+    margin-top: -200px;
+    background-color: white;
+    border: 0.5px solid black;
+    transition: 0.5s;
+    animation: appear .7s cubic-bezier(.77,0,.175,1) forwards;
+    z-index: 2000;
+}
+
+.login-modal-close {
+    position: absolute;
+    top: 3%;
+    right: 3%;
+    font-size: 40px;
+    color: gray;
+    cursor: pointer;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/**
+* 모달 닫는 애니메이션 추후 적용
+@keyframes dissappear {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+}
+*/
+
 .posting-add-btn{
-    position: relative;
+    /* position: relative; */
     width: 70px;
-    float: right;
-    top: 0px;
+    /* float: right; */
+    top: -20px;
     left: 50px;
 }
 .right-page{
-    float: left;
+    float: right;
     width: 40%;
     min-width: 400px;
     height: 945px;
-    box-shadow: 0 -2px 0 2px #424141;
+    border: 1px solid black;
     background-color:#F2F8F9;
     background-size: 100%;
     
@@ -159,8 +222,6 @@ body{
 
 .footer{
     width: 100%;
-    border-top-style: solid;
-    border-width: 0.5px;
     float: left;
 }
 .footer img{

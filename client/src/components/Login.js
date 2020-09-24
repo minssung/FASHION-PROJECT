@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import './CSS/Login.css';
+import { Link } from 'react-router-dom';
 
 // UI 모듈
 import TextField from '@material-ui/core/TextField';
@@ -38,7 +39,7 @@ function Login(props) {
         console.log(login.data)
 
         // 로그인 성공, 실패
-        if (!login.data.error) props.login();
+        if (!login.data.error) window.location = "/";
         else if (login.data.error && emailId && password) alert('등록되지 않은 이메일이거나 일치하지 않는 비밀번호입니다.');
         else if (!emailId) { alert('이메일을 입력해주세요.'); emailRef.current.focus(); }
         else if (!password) { alert('비밀번호를 입력해주세요.'); passwordRef.current.focus(); }
@@ -69,6 +70,7 @@ function Login(props) {
 
     return (
         <div className="login-container">
+            <div className="login-title">로그인</div>
             <form onSubmit={onSubmit} className="login-input-form" noValidate autoComplete="off">
                 <div className="login-id">
                     {
@@ -94,7 +96,9 @@ function Login(props) {
                 </div>
                 <div className="login-signup-btn">
                     <Button type="submit" variant="outlined">로그인</Button>
-                    <Button onClick={props.signup} variant="outlined" color="primary">회원가입</Button>
+                    <Link to="/insert" style={{textDecoration: 'none'}}>
+                        <Button variant="outlined" color="primary">회원가입</Button>
+                    </Link>
                 </div>
             </form>
         </div>

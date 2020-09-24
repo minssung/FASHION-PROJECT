@@ -63,11 +63,10 @@ router.post('/verify', (req, res) => {
 
         if (token !== 'undefined') {
             let decoded = jwt.verify(token, JWT_SECRET_KEY);
-            console.log('Token Obj', decoded);
-            res.send("권한이 있어서 API 수행 가능")
+            res.send("인증 성공");
 
         } else {
-            res.send("권한이 없습니다.")
+            res.send("");
         }
         
     } catch (err) {

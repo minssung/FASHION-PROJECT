@@ -3,6 +3,7 @@ import './CSS/Home.css';
 import Button from '@material-ui/core/Button';
 // import Input from '@material-ui/core/Input';
 import { Typography, IconButton } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 class PostingAdd extends Component{
     constructor(props){
@@ -77,7 +78,9 @@ class PostingAdd extends Component{
         <div className="left-page">
             <div className="header">
                 <div className="logo">
-                    <img src="/images/logo3.PNG" alt="logo"/>
+                    <Link to={`/`}>
+                        <img src="/images/logo3.PNG" alt="logo"/>
+                    </Link>
                 </div>
             </div>
             <div className="left-page-posting">
