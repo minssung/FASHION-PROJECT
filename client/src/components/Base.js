@@ -18,6 +18,7 @@ function Base() {
     const [user, setUser] = useState('');
     const [loading, setLoading] = useState(false);
     const [cookies, setCookies] = useCookies(['name']);
+    const [posting,setPosting] = useState('');
 
     // state 변경 함수
     /**

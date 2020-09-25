@@ -65,7 +65,8 @@ class PostingAdd extends Component{
         });
       }
 
-      //SaveData
+      //디비에 포스팅 데이터 저장 
+      //이미지가 아닌 데이터 입력시 에러메세지 추가 해야함 
       SaveData(){
         console.log(this.state);
         const postingData = this.state;
@@ -88,7 +89,6 @@ class PostingAdd extends Component{
         }
      return (
         <div className="full-page">
-        <form>
         <div className="left-page">
             <div className="header">
                 <div className="logo">
@@ -160,11 +160,12 @@ class PostingAdd extends Component{
                 <p>내용 입력</p>
                     <textarea value={this.state.content} onChange={this.ContentChange.bind(this)} name="content"></textarea>
                     <div className="save">
-                        <Button variant="contained" size="large" name="save" onClick={this.SaveData.bind(this)}>저장</Button>
+                        <Link to={`/`}> 
+                            <Button variant="contained" size="large" name="save" onClick={this.SaveData.bind(this)}>저장</Button>
+                        </Link>
                     </div>
             </div>
         </div>
-        </form>
         <footer className="footer">
             <Typography variant="body2" color="textSecondary" align="center">
             {'긴머리와 파마머리 '+new Date().getFullYear()+' 졸업작품 프로젝트'}

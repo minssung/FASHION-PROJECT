@@ -3,26 +3,45 @@ import './CSS/Home.css';
 import Button from '@material-ui/core/Button';
 import { Typography, IconButton } from '@material-ui/core';
 import Login from './Login';
+import PostingView from './PostingView';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 class Home extends Component{
     constructor(props) {
         super(props);
         this.state = {
+            file: "",
+            preview: "",
+            top_tag: "",
+            outer_tag: "",
+            bottom_tag: "",
+            shoes_tag: "",
+            content: "",
             loginModal: false,
+            posting_data: [],
         }
     }
-    
+    async componentDidMount(){
+        //디비에서 포스팅 데이터 가져오기
+        let postingData;
+        postingData = axios.get('http://localhost:5000/posting');
+        console.log(postingData);
+        this.setState({ posting_data: (await postingData).data });
+        const testimg = this.state.posting_data[0].top_tag;
+        console.log(testimg);
+    }
     render(){
         const { loginModal } = this.state;
-
-        return (
+        const {test} = this.state.posting_data;
+        console.log({test})
+        return ( 
             <div className="full-page">
                 <div className="left-page">
                     <div className="header">
                         <div className="logo">
                             <Link to={`/`}>
-                            <img src="/images/logo3.PNG" alt="logo"/>
+                                <img src="/images/logo3.PNG" alt="logo"/>
                             </Link>
                         </div>
                         <div className="login-btn">
@@ -55,7 +74,11 @@ class Home extends Component{
                             </IconButton>
                             </Link>
                         </div>
-                        sns posting 화면
+                        <div className="posting-view">
+                            <PostingView data={this.state.posting_data} />
+                            {test}
+                            {/* <img src={testimg}/> */}
+                        </div>
                     </div>
                 </div>
                 <div className="right-page">

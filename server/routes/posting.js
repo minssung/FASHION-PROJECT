@@ -11,17 +11,31 @@ const Posting = models.posting;
 // env
 const PASSWORD_SECRET_KEY = process.env.PASSWORD_SECRET_KEY;
 
+router.get('/', async(req,res,next) => {
+    try {
+        const postingdata = await Posting.findAll({
+        });
+        console.log("aa");
+        res.send(postingdata);
+    } 
+    catch(err){
+        console.error(err);
+        next(err);
+    }
+    
+});
+
 
 //포스팅 정보 DB에 저장
 function posting_insert(posting_data) {
     try {
-        const hashPwd = crypto.createHmac('sha256', PASSWORD_SECRET_KEY)
         const result = Posting.create({
             image: posting_data.file,
             top_tag : posting_data.top_tag,
             outer_tag : posting_data.outer_tag,
             bottom_tag : posting_data.bottom_tag,
             shoes_tag : posting_data.shoes_tag,
+            content : posting_data.content,
         });
         return result
 

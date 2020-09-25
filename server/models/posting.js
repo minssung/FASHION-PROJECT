@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
             autoIncrement: true,
         },
         image: {
-            type: DataTypes.BLOB,
+            type: DataTypes.BLOB('LONG'),
             allowNull: false,
         },
 
@@ -29,6 +29,10 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
         },
         like: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        content: {
             type: DataTypes.STRING,
             allowNull: true,
         },
