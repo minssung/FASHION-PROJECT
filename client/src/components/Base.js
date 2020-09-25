@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Signup from './Signup';
-import UserInfo from './UserInfo';
+import Mypage from './Mypage';
 import Home from './Home';
 import axios from 'axios';
 import './CSS/Base.css';
 import PostingAdd from './PostingAdd';
+import NotFound from './NotFound';
 
 import { useCookies } from 'react-cookie';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -16,9 +17,9 @@ function Base() {
     const [signup, setSignup] = useState(false);
     */
     const [user, setUser] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [cookies, setCookies] = useCookies(['name']);
-    const [posting,setPosting] = useState('');
+    // const [posting,setPosting] = useState('');
 
     // state 변경 함수
     /**
@@ -40,31 +41,53 @@ function Base() {
                         'x-access-token': cookies.user
                     }
                 });
-                setUser(result.data);
+
+                return result.data;
             }
-            fetchCookie();
+            fetchCookie()
+            .then(async (id) => {
+                const user_id = id.user_id;
+                const result = await axios.get(`http://localhost:5000/users/one?emailId=${user_id}`);
+                setUser(result.data);
+
+                // 초기 마운트 끝 부분 로딩완료.
+                setLoading(false); 
+            });
+
+            async function allUser() {
+                // const result = await axios.get('http://localhost:5000/users/all');
+                // const users = result.data;
+                // users.map((user, i) => {
+
+                // })
+            }
+
+            allUser();
             
         } catch (err) {
             console.log('mount', err)
         }
-        
-
-        setLoading(true);
 
     }, [cookies], [setCookies]);
 
     return (
         <div className="main-container">
+            
             {
-                loading &&
-                <Router>
-                    <Switch>
-                        <Route exact path="/" render={() => <Home user={user} />} />
-                        <Route path="/insert" render={() => <Signup />} />
-                        <Route path="/mypage/nick" render={() => <UserInfo />} />
-                        <Route path="/postingAdd" render={() => <PostingAdd /> } />
-                    </Switch>
-                </Router>
+                !loading ?
+                <div>
+                    <Router>
+                        <Switch>
+                            <Route exact path="/" render={() => <Home user={user} />} />
+                            <Route path="/insert" render={() => <Signup />} />
+                            <Route path={`/mypage/${user.nick}`} render={() => <Mypage />} />
+                            <Route path="/postingAdd" render={() => <PostingAdd /> } />
+                            <Route component={NotFound} />
+                        </Switch>
+                    </Router>
+                </div>
+                :
+                <div></div>
             }
             
             

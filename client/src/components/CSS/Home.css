@@ -55,13 +55,15 @@ body{
 
 .left-page-posting{
     text-align: center;
-    height: auto;
+    height: 810px;
+    overflow:auto;
 }
 
 /*게시글 css*/
 .posting-view{
     margin-left: auto;
     margin-right: auto;
+    height: 200px;
     display: table;
 }
 
@@ -126,11 +128,11 @@ body{
 */
 
 .posting-add-btn{
-    /* position: relative; */
+    position: sticky;
     width: 70px;
     /* float: right; */
-    top: -20px;
-    left: 50px;
+    top: 10px;
+    left: 10px;
 }
 .right-page{
     float: right;

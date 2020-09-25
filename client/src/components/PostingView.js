@@ -16,7 +16,7 @@ class PostingView extends Component{
 
                 </div>
                 {/* 댓글 */}
-                <div className="user-comment">
+                <div className="comment-preview">
 
                 </div>
                 {/* 댓글 적기 */}

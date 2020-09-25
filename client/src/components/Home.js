@@ -20,9 +20,16 @@ class Home extends Component{
             content: "",
             loginModal: false,
             posting_data: [],
+            nick: '',
         }
+        
     }
+
     async componentDidMount(){
+        this.setState({
+            nick: this.props.user.nick
+        })
+
         //디비에서 포스팅 데이터 가져오기
         let postingData;
         postingData = axios.get('http://localhost:5000/posting');
@@ -32,7 +39,7 @@ class Home extends Component{
         console.log(testimg);
     }
     render(){
-        const { loginModal } = this.state;
+        const { loginModal, nick } = this.state;
         const {test} = this.state.posting_data;
         console.log({test})
         return ( 
@@ -49,8 +56,7 @@ class Home extends Component{
                                 !this.props.user ?
                                 <Button type="submit" onClick={() => {this.setState({ loginModal: true });}} variant="contained" color="primary">로그인</Button>
                                 :
-                                
-                                <Link to={`/mypage/nick`} style={{textDecoration: 'none'}}>
+                                <Link to={`/mypage/${nick}`} style={{textDecoration: 'none'}}>
                                     <div className="mypage-btn">My</div>
                                 </Link>
                             }
@@ -76,7 +82,7 @@ class Home extends Component{
                         </div>
                         <div className="posting-view">
                             <PostingView data={this.state.posting_data} />
-                            {test}
+                            <PostingView data={this.state.posting_data} />
                             {/* <img src={testimg}/> */}
                         </div>
                     </div>

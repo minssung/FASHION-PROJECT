@@ -354,7 +354,7 @@ function Signup(props) {
                         <div className="signup-btn">
                             <Button type="submit" variant="outlined">가입</Button>
                             <Link to="/" style={{textDecoration: 'none'}}>
-                                <Button onClick={props.signup} variant="outlined" color="primary">취소</Button>
+                                <Button variant="outlined" color="primary">취소</Button>
                             </Link>
                         </div>
                         
@@ -369,7 +369,9 @@ function Signup(props) {
                             회원가입이 완료되었습니다.
                         </div>
                         <div className="signup-modal-btn">
-                            <Button onClick={props.signup} variant="outlined" color="primary">로그인</Button>
+                            <Link to="/" style={{textDecoration: 'none'}}>
+                                <Button variant="outlined" color="primary">로그인</Button>
+                            </Link>
                         </div>
                     </div>
                 </>

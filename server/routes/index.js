@@ -63,7 +63,8 @@ router.post('/verify', (req, res) => {
 
         if (token !== 'undefined') {
             let decoded = jwt.verify(token, JWT_SECRET_KEY);
-            res.send("인증 성공");
+            console.log(decoded.user_id);
+            res.send(decoded);
 
         } else {
             res.send("");
