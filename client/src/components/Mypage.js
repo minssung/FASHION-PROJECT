@@ -49,16 +49,20 @@ class Mypage extends Component{
                         <div className="user-name">nick</div>
                         <div className="user-comment">user comment</div>
                         <table className="user-history">
-                            <tr>
-                                <td>게시글</td>
-                                <td>팔로워</td>
-                                <td>팔로우</td>
-                            </tr>
-                            <tr>
-                                <td>0</td>
-                                <td>0</td>
-                                <td>0</td>
-                            </tr>
+                            <thead>
+                                <tr>
+                                    <td>게시글</td>
+                                    <td>팔로워</td>
+                                    <td>팔로우</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                            </tbody>
                         </table>
                         
                         {/* <div className="profile-edit">

@@ -295,7 +295,7 @@ function Signup(props) {
                         <div className="signup-id">
                             {
                                 !emailIdErr ? <>
-                                <TextField id="standard-basic-1" inputRef={emailLength} onBlur={onBlurEmailId} label="이메일 아이디" value={emailId} placeholder="id@domain.com" required onChange={onChangeEmailId} />
+                                <TextField id="standard-basic-1" inputRef={emailLength} onBlur={onBlurEmailId} label="이메일 아이디" value={emailId} placeholder="id@domain.com" required onChange={onChangeEmailId} autoFocus={true}/>
                                 { confirmEmailId && <div className="signup-input-confirm-1">사용 가능한 이메일입니다.</div> }
                                 { confirmIdErr && <div className="signup-input-confirm-2">이메일 형식으로 입력해주세요.</div> }
                                 { existId && <div className="signup-input-confirm-3">이미 등록된 이메일입니다.</div> }
