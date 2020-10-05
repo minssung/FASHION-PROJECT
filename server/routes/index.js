@@ -63,7 +63,6 @@ router.post('/verify', (req, res) => {
 
         if (token !== 'undefined') {
             let decoded = jwt.verify(token, JWT_SECRET_KEY);
-            console.log(decoded.user_id);
             res.send(decoded);
 
         } else {
@@ -74,11 +73,5 @@ router.post('/verify', (req, res) => {
         console.log('Token verify', err);
     }
 });
-
-router.get('/getToken', (req, res) => {
-    const token = req.signedCookies.user;
-    console.log(token)
-    res.send(token);
-})
 
 module.exports = router;

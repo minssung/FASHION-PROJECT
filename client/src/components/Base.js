@@ -15,7 +15,8 @@ function Base() {
     const [login, setLogin] = useState(false);
     const [signup, setSignup] = useState(false);
     */
-    const [user, setUser] = useState('');
+    const [user, setUser] = useState('');               // user 개인
+    const [userArray, setUserArray] = useState([]);
     const [loading, setLoading] = useState(true);
     const [cookies, setCookies] = useCookies(['name']);
 
@@ -53,13 +54,10 @@ function Base() {
             });
 
             async function allUser() {
-                // const result = await axios.get('http://localhost:5000/users/all');
-                // const users = result.data;
-                // users.map((user, i) => {
-
-                // })
+                const result = await axios.get('http://localhost:5000/users/all');
+                const users = result.data;
+                setUserArray(users);
             }
-
             allUser();
             
         } catch (err) {
@@ -70,7 +68,6 @@ function Base() {
 
     return (
         <div className="main-container">
-            
             {
                 !loading ?
                 <div>
@@ -78,7 +75,12 @@ function Base() {
                         <Switch>
                             <Route exact path="/" render={() => <Home user={user} />} />
                             <Route path="/insert" render={() => <Signup />} />
-                            <Route path={`/mypage/${user.nick}`} render={() => <Mypage />} />
+                            {userArray.map((data, i) => {
+                                return <Route key={i}
+                                    path={`/${data.nick}`}
+                                    render={() => <Mypage user={user} userData={data} />} 
+                                />
+                            })}
                             <Route component={NotFound} />
                         </Switch>
                     </Router>

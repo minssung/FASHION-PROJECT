@@ -16,6 +16,11 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
         },
 
+        comment: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+
         photo: {
             type: DataTypes.BLOB,
             allowNull: true,
