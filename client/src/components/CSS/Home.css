@@ -55,7 +55,8 @@ body{
 
 .left-page-posting{
     text-align: center;
-    height: 810px;
+    height: 770px;
+    width: 700px;
     overflow:auto;
 }
 
@@ -246,7 +247,7 @@ body{
 .nullbox{
     height: 100px;
 }
-textarea{
+.posting-add-textarea{
     width: 395px;
     height: 330px;
     margin-top: 10px;
@@ -257,6 +258,7 @@ textarea{
     font-size: 17px;
     padding-top: 20px;
     padding-left: 15px;
+    resize: none;
 }
 .save{
     float: right;

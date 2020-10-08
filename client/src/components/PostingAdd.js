@@ -10,7 +10,7 @@ class PostingAdd extends Component{
     constructor(props){
         super(props);
         this.state={
-            file: "",
+            file: null,
             preview: "",
             top_tag: "",
             outer_tag: "",
@@ -19,6 +19,7 @@ class PostingAdd extends Component{
             content: "",
         }
     }
+    
     //onChange에서 호출 되는 함수 
     FileOnChange = (event) => {
         event.preventDefault();
@@ -68,17 +69,28 @@ class PostingAdd extends Component{
       //디비에 포스팅 데이터 저장 
       //이미지가 아닌 데이터 입력시 에러메세지 추가 해야함 
       SaveData(){
+        const formData = new FormData();
+        
         console.log(this.state);
-        const postingData = this.state;
+        // const postingData = this.state;
+        formData.append('file',this.state.file);
+        formData.append('top_tag',this.state.top_tag);
+        formData.append('outer_tag',this.state.outer_tag);
+        formData.append('buttom_tag',this.state.buttom_tag);
+        formData.append('shoes_tag',this.state.shoes_tag);
+        formData.append('content',this.state.content);
             // image : this.state.file,
             // top_tag : this.state.top_tag,
             // outer_tag : this.state.outer_tag,
             // bottom_tag : this.state.bottom_tag,
             // shoes_tag : this.state.shoes_tag,
-        axios.post('http://localhost:5000/posting/insert', {posting_data: postingData});
+        axios.post('http://localhost:5000/posting/insert', formData,{
+            headers: {'Content-Type': 'multipart/form-data'}
+        });
+        alert("포스팅이 저장되었습니다.");
       }
       componentDidUpdate(){
-          console.log(this.state)
+        //   console.log(this.state)
           
       }
 
@@ -103,8 +115,8 @@ class PostingAdd extends Component{
                 {profile_preview}
             </div>
             <input type="file" 
-                name="upload_img" 
-                accept="image/jpg,impge/png,image/jpeg,image/gif"
+                name="img" 
+                accept="image/jpg, image/png, image/jpeg, image/gif"
                 //onChange는 input에 입력돤값이 변경될때마다 실행
                 onChange={this.FileOnChange}/>
             </div>
@@ -158,7 +170,7 @@ class PostingAdd extends Component{
             </div>
             <div className="hot-posting">
                 <p>내용 입력</p>
-                    <textarea value={this.state.content} onChange={this.ContentChange.bind(this)} name="content"></textarea>
+                    <textarea className="posting-add-textarea" value={this.state.content} onChange={this.ContentChange.bind(this)} name="content"></textarea>
                     <div className="save">
                         <Link to={`/`}> 
                             <Button variant="contained" size="large" name="save" onClick={this.SaveData.bind(this)}>저장</Button>
