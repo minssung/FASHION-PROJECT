@@ -77,6 +77,32 @@ router.get('/all', async (req, res) => {
     }
 });
 
+// 닉네임 업데이트
+router.put('/updateNick', async (req, res) => {
+    try {
+        const result = await User.update({
+            nick: req.query.nick
+        }, { where: { emailId: req.query.emailId }});
+
+        res.send(result);
+    } catch (err) {
+        console.log('Nickname Update', err);
+    }
+});
+
+// 코멘트 업데이트
+router.put('/updateComment', async (req, res) => {
+    try {
+        const result = await User.update({
+            comment: req.query.comment
+        }, { where: { emailId: req.query.emailId }});
+
+        res.send(result);
+    } catch (err) {
+        console.log('Comment Update', err);
+    }
+});
+
 // 회원정보 입력
 router.post('/insert', (req, res) => {
     const result = insert(req.body.info);

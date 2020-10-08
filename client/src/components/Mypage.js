@@ -25,13 +25,14 @@ class Mypage extends Component{
             /** 코멘트 */
             comment: '',
             commentErr: false,
+            setComment: '',         // 마이 페이지 코멘트
 
             /** 프로필 사진  */
             img: null,
             file: '',
-            previewURL: '', // FileReader 객체에 담긴 프로필 프리뷰
-            previewImg: '', // 프로필 사진 변경때 프리뷰
-            pageImg: '',    // 마이 페이지 프로필 사진
+            previewURL: '',         // FileReader 객체에 담긴 프로필 프리뷰
+            previewImg: '',         // 프로필 사진 변경때 프리뷰
+            pageImg: '',            // 마이 페이지 프로필 사진
         }
         this.user = this.props.user;          // 로그인 유저 데이터
         this.pageUser = this.props.pageUser;  // 해당 페이지 유저
@@ -44,8 +45,9 @@ class Mypage extends Component{
         if (this.user.emailId === this.pageUser.emailId) this.setState({ verify: true });
         
         this.setState({ 
-            previewImg: this.pageUser.photo, 
-            pageImg: this.pageUser.photo 
+            previewImg: this.pageUser.photo,
+            pageImg: this.pageUser.photo,
+            setComment: this.pageUser.comment,
         });
     }
 
@@ -89,26 +91,28 @@ class Mypage extends Component{
         }
     }
 
-    onSubmitNick(e) {
+    async onSubmitNick(e) {
         e.preventDefault();
 
         if (this.state.confirmNick) {
-            console.log('aa')
-            // 닉네임 변경 성공
+            await axios.put(`http://localhost:5000/users/updateNick?nick=${this.state.nick}&emailId=${this.user.emailId}`);
+
+            alert('닉네임이 변경되었습니다.');
+            window.location.href = `http://localhost:3000/${this.state.nick}`;
 
         } else {
-            // 닉네임 변경 실패
             if (!this.state.nick) this.setState({ nickErr: true });
         }
     }
 
-    onSubmitComment(e) {
+    async onSubmitComment(e) {
         e.preventDefault();
 
         if (!this.state.commentErr) {
-            // 코멘트 변경 성공
-            console.log('변경 성공');
+            await axios.put(`http://localhost:5000/users/updateComment?comment=${this.state.comment}&emailId=${this.user.emailId}`);
 
+            this.setState({ setComment: this.state.comment });
+            alert('코멘트가 변경되었습니다.');
         }
     }
 
@@ -138,6 +142,7 @@ class Mypage extends Component{
             pageImg: result.data.url,
             previewImg: result.data.url
         });
+        alert('프로필 사진이 변경되었습니다.');
     }
 
     async onBlurNick(e) {
@@ -185,7 +190,7 @@ class Mypage extends Component{
 
     render(){
         const { verify, setUserModal, file, previewURL, previewImg, pageImg } = this.state;
-        const { nick, nickErr, confirmNick, confirmNickErr, existNick, exceptionNick, comment, commentErr } = this.state;
+        const { nick, nickErr, confirmNick, confirmNickErr, existNick, exceptionNick, comment, commentErr, setComment } = this.state;
 
         let profile_preview = null;
         if (file !== '') {
@@ -318,7 +323,7 @@ class Mypage extends Component{
 
                         {
                             this.pageUser.comment ?
-                            <div className="user-comment">{this.pageUser.comment}</div>
+                            <div className="user-comment">{setComment}</div>
                             :
                             <div className="user-comment">빈 코멘트</div>
                         }
