@@ -78,7 +78,7 @@ function Base() {
                             {userArray.map((data, i) => {
                                 return <Route key={i}
                                     path={`/${data.nick}`}
-                                    render={() => <Mypage user={user} userData={data} />} 
+                                    render={() => <Mypage user={user} pageUser={data} />} 
                                 />
                             })}
                             <Route component={NotFound} />

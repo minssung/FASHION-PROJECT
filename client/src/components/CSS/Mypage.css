@@ -104,23 +104,58 @@
 }
 
 .user-set-text1 {
-    /* margin-top: 50px; */
+
+}
+.user-set-text2 {
+    margin-top: 30px;
+}
+.user-set-text3 {
+    margin-top: 30px;
 }
 
-.user-set-form-nick {
+/* 회원정보 form */
+.user-set-form {
     height: 15%;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
-    /* margin-right: 30px; */
+    margin-left: 80px;
 }
-
-.user-set-nick {
+.user-set {
     margin-right: 30px;
 }
-.user-set-nick div {
+.user-set div {
+    margin-top: 10px;
+}
+/* 회원정보 프로필 사진 form */
+.user-set-form-photo {
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.user-set-body-photo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-top: 20px;
+}
+.user-set-form-photo .user-set input {
+    margin-top: 10px;
+}
+.user-set-photo img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+
+}
+/* 프로필 사진이 없을 때 */
+.user-set-non-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: gray;
 }
 
 .user-name{
