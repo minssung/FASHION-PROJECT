@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './CSS/Mypage.css';
-import { Button, IconButton, Typography } from '@material-ui/core';
+import {IconButton, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 class Mypage extends Component{

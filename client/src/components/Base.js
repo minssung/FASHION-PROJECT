@@ -19,7 +19,7 @@ function Base() {
     const [user, setUser] = useState('');
     const [loading, setLoading] = useState(true);
     const [cookies, setCookies] = useCookies(['name']);
-    // const [posting,setPosting] = useState('');
+    const [posting, setPosting] = useState('');
 
     // state 변경 함수
     /**
@@ -63,6 +63,13 @@ function Base() {
             }
 
             allUser();
+
+            async function postingData(){
+                const result = await axios.get(`http://localhost:5000/posting`);
+                setPosting(result.data);
+                console.log(result.data);
+            }
+            postingData();
             
         } catch (err) {
             console.log('mount', err)
@@ -78,7 +85,7 @@ function Base() {
                 <div>
                     <Router>
                         <Switch>
-                            <Route exact path="/" render={() => <Home user={user} />} />
+                            <Route exact path="/" render={() => <Home user={user} posting={posting}/>} />
                             <Route path="/insert" render={() => <Signup />} />
                             <Route path={`/mypage/${user.nick}`} render={() => <Mypage />} />
                             <Route path="/postingAdd" render={() => <PostingAdd /> } />

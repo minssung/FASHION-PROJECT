@@ -22,26 +22,17 @@ class Home extends Component{
             posting_data: [],
             nick: '',
         }
-        
     }
 
-    async componentDidMount(){
+    componentDidMount = async() => {
         this.setState({
-            nick: this.props.user.nick
+            nick: this.props.user.nick,
+            posting_data: this.props.posting,
         })
-
-        //디비에서 포스팅 데이터 가져오기
-        let postingData;
-        postingData = axios.get('http://localhost:5000/posting');
-        console.log(postingData);
-        this.setState({ posting_data: (await postingData).data });
-        const testimg = this.state.posting_data[0].top_tag;
-        console.log(testimg);
     }
     render(){
-        const { loginModal, nick } = this.state;
-        const {test} = this.state.posting_data;
-        console.log({test})
+        const { loginModal, nick} = this.state;
+        const posting = this.props.posting;
         return ( 
             <div className="full-page">
                 <div className="left-page">
@@ -81,9 +72,8 @@ class Home extends Component{
                             </Link>
                         </div>
                         <div className="posting-view">
-                            <PostingView data={this.state.posting_data} />
-                            <PostingView data={this.state.posting_data} />
-                            {/* <img src={testimg}/> */}
+                            <PostingView postingdata={posting} />
+                            <PostingView postingdata={posting} />
                         </div>
                     </div>
                 </div>

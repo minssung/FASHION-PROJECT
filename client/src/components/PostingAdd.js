@@ -10,7 +10,7 @@ class PostingAdd extends Component{
     constructor(props){
         super(props);
         this.state={
-            file: null,
+            file: "",
             preview: "",
             top_tag: "",
             outer_tag: "",
@@ -76,7 +76,7 @@ class PostingAdd extends Component{
         formData.append('file',this.state.file);
         formData.append('top_tag',this.state.top_tag);
         formData.append('outer_tag',this.state.outer_tag);
-        formData.append('buttom_tag',this.state.buttom_tag);
+        formData.append('bottom_tag',this.state.bottom_tag);
         formData.append('shoes_tag',this.state.shoes_tag);
         formData.append('content',this.state.content);
             // image : this.state.file,

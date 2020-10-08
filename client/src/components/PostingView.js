@@ -28,7 +28,7 @@ class PostingView extends  Component{
     render(){
 
         // const posting = this.props.postingdata[6] ? this.props.postingdata[6].image : null;
-        const posting = this.props.postingdata[0] ;
+        const posting = this.props.postingdata[6] ;
         // ? this.props.postingdata[0].image : null;
         console.log(posting);
         // if(posting) {
@@ -41,20 +41,20 @@ class PostingView extends  Component{
         //     }
         // }
         // this.setState({})
-        console.log(typeof posting);
         // const objectURL = window.URL ? window.URL.createObjectURL(posting) : window.webkitURL.createObjectURL(posting);
         // const objectURL = URL.createObjectURL(new Blob(['<a></a>'], {type: 'text/html'}));
         return (
             <div className="PostingView-full">
-                {/* 유저이미지 */}
+                
                 <div className="PostingView-img">
-                    <img src={''}></img>
+                    <img src={"http://localhost:5000"+posting.image}></img>
+                    {/* {posting.image} */}
                 </div>
                 {/* 유저 네임 및 글 */}
                 <div className="user-name-content">
                     {/* <p>{posting.content}</p> */}
-                    <p className="posting-user-name">username</p> 
-                    <p className="posting-user-content">content 내용입력...</p>
+                    <p className="posting-user-name">{posting.postting_num}</p> 
+                    <p className="posting-user-content">{posting.content}</p>
                     <div className="posting-heart-btn">
                         <IconButton>
                             <img height="30px" src="/images/heart.PNG" alt="addposting"/>123
