@@ -14,7 +14,7 @@ class Mypage extends Component{
             verify: false,          // mypage 유저와 현재 로그인 한 유저가 동일한지 여부
             setUserModal: false,    // 회원정보 변경
 
-            /** 닉네임 state */
+            /** 닉네임 */
             nick: '',
             nickErr: false,
             confirmNick: false,
@@ -22,16 +22,19 @@ class Mypage extends Component{
             existNick: false,
             exceptionNick: false,
 
-            /** 코멘트 state */
+            /** 코멘트 */
             comment: '',
             commentErr: false,
 
-            /** 프로필 사진 */
+            /** 프로필 사진  */
             img: null,
-            imgRoute: null,
+            file: '',
+            previewURL: '', // FileReader 객체에 담긴 프로필 프리뷰
+            previewImg: '', // 프로필 사진 변경때 프리뷰
+            pageImg: '',    // 마이 페이지 프로필 사진
         }
-        this.user = this.props.user;          // 로그인 한 자신
-        this.pageUser = this.props.pageUser;  // Parameter 해당 유저
+        this.user = this.props.user;          // 로그인 유저 데이터
+        this.pageUser = this.props.pageUser;  // 해당 페이지 유저
 
         this.nickLength = React.createRef();
         this.commentLength = React.createRef();
@@ -39,8 +42,11 @@ class Mypage extends Component{
 
     async componentDidMount() {
         if (this.user.emailId === this.pageUser.emailId) this.setState({ verify: true });
-
-        console.log(this.pageUser);
+        
+        this.setState({ 
+            previewImg: this.pageUser.photo, 
+            pageImg: this.pageUser.photo 
+        });
     }
 
     componentDidUpdate() {
@@ -107,6 +113,19 @@ class Mypage extends Component{
     }
 
     async onChangePhoto(e) {
+        this.setState({ previewImg: '' });
+        e.preventDefault();
+
+        let reader = new FileReader();
+        let file = e.target.files[0];
+        reader.onloadend = () => {
+        this.setState({
+            file : file,
+            previewURL : reader.result
+        })
+        }
+        reader.readAsDataURL(file);
+
         await this.setState({ img: e.target.files[0] });
     }
 
@@ -114,8 +133,11 @@ class Mypage extends Component{
         const formData = new FormData();
         formData.append('img', this.state.img);
 
-        const result = await axios.post('http://localhost:5000/upload', formData);
-        this.setState({ imgRoute: result.data.url })
+        const result = await axios.post(`http://localhost:5000/upload?emailId=${this.user.emailId}&photo=${this.state.pageImg}`, formData);
+        this.setState({ 
+            pageImg: result.data.url,
+            previewImg: result.data.url
+        });
     }
 
     async onBlurNick(e) {
@@ -162,8 +184,13 @@ class Mypage extends Component{
     };
 
     render(){
-        const { verify, setUserModal } = this.state;
-        const { nick, nickErr, confirmNick, confirmNickErr, existNick, exceptionNick, comment, commentErr, imgRoute } = this.state;
+        const { verify, setUserModal, file, previewURL, previewImg, pageImg } = this.state;
+        const { nick, nickErr, confirmNick, confirmNickErr, existNick, exceptionNick, comment, commentErr } = this.state;
+
+        let profile_preview = null;
+        if (file !== '') {
+            profile_preview = previewURL;
+        }
 
         return (
             <div className="mypage-container">
@@ -187,7 +214,12 @@ class Mypage extends Component{
 
                 <div className="user-area">
                     <div className="user-info">
-                        <div className="user-profile-img"></div>
+                        {
+                            pageImg ?
+                            <img className="user-profile-img" src={`http://localhost:5000/uploads/${pageImg}`} alt="user-profile"/>
+                            :
+                            <div className="user-profile-img"></div>
+                        }
                         <div className="user-profile-setting">
                             {
                                 verify ?
@@ -215,7 +247,8 @@ class Mypage extends Component{
                                             comment: '',
                                             commentErr: false,
                                             img: null,
-                                            imgRoute: '',
+                                            file: '',
+                                            previewURL: '',
                                         })
                                     }}>&times;</div>
                                     <div className="user-set-body">
@@ -262,14 +295,17 @@ class Mypage extends Component{
                                         <div className="user-set-form-photo">
                                             <div className="user-set-photo">
                                                 {
-                                                    imgRoute ?
-                                                    <img src={imgRoute} alt="user-profile"/>
+                                                    previewImg ?
+                                                    <img src={`http://localhost:5000/uploads/${pageImg}`} alt="user-profile" />
+                                                    :
+                                                    profile_preview ?
+                                                    <img src={profile_preview} alt="user-profile" />
                                                     :
                                                     <div className="user-set-non-photo"></div>
                                                 }
                                             </div>
                                             <div className="user-set-body-photo">
-                                                <input type="file" name="img" onChange={this.onChangePhoto.bind(this)} />
+                                                <input type="file" name="img" onChange={this.onChangePhoto.bind(this)} accept='image/jpg,impge/png,image/jpeg,image/gif'  />
                                                 <Button className="user-set-btn" onClick={this.onClickPhoto.bind(this)} variant="outlined">변경</Button>
                                             </div>
                                         </div>

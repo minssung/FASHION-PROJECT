@@ -7,6 +7,8 @@ const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 
+process.env.NODE_ENV === 'production' ? configs = require('../config/config.json').production : configs = require('../config/config.json').development;
+
 const User = models.user;
 
 // env
@@ -33,10 +35,10 @@ async function loginCheck(info) {
     }
 }
 
-// 클라이언트 public/uploads 경로에 이미지 저장
-fs.readdir('../client/public/uploads', (error, files) => {
+// 서버 루트경로 server/uploads 경로에 이미지 저장
+fs.readdir('./uploads', (error, files) => {
     if (error) {
-        fs.mkdirSync('../client/public/uploads');
+        fs.mkdirSync('./uploads');
     }
 })
 
@@ -44,7 +46,7 @@ fs.readdir('../client/public/uploads', (error, files) => {
 const upload = multer({
     storage: multer.diskStorage({
         destination(req, file, cb) {
-            cb(null, '../client/public/uploads/');
+            cb(null, './uploads/');
         },
         filename(req, file, cb) {
             const ext = path.extname(file.originalname);
@@ -54,12 +56,33 @@ const upload = multer({
     limits: { fileSize: 5 * 1024 * 1024 },
 })
 
+// 파일 DB에 저장
 router.post('/upload', upload.single('img'), (req, res) => {
-    const imgRoute = `/uploads/${req.file.filename}`;
-    // user DB photo 컬럼에 imgRoute 값 추가 (where은 emailId 로 참조)
+    try {
+        if (req.file === undefined) {
+            console.log('client/Mypage.js FormData', req.file);
+            console.log('파일명', req.query.photo);
+        } else {
+            // 이미지 파일 선택한 경우
+            // 전에 있던 파일 삭제 -> 새로 저장
+            const filePath = path.join(__dirname, '../uploads', req.query.photo);
+
+            fs.access(filePath, fs.constants.F_OK, (err) => {
+                if (err) return console.log('삭제할 수 없는 파일입니다');
+            
+                fs.unlink(filePath, (err) => err ?  
+                    console.log(err) : console.log(`${filePath} 를 정상적으로 삭제했습니다`));
+            })
+
+            User.update({photo: req.file.filename}, {where: {emailId: req.query.emailId}});
+
+            res.json({ url: req.file.filename });
+        }
+        
+    } catch (err) {
+        console.log('profile photo', err);
+    }
     
-    console.log(req.file);
-    res.json({ url: imgRoute });
 })
 
 // 로그인 유효 검사
