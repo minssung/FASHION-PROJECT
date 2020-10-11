@@ -2,6 +2,8 @@ import { Button,IconButton } from '@material-ui/core';
 // 게시글 페이지
 import React, { Component } from 'react';
 import './CSS/PostingView.css';
+import AwesomeSlider from 'react-awesome-slider';
+import 'react-awesome-slider/dist/styles.css';
 
 class PostingView extends  Component{
     constructor(props) {
@@ -26,9 +28,9 @@ class PostingView extends  Component{
     }
 
     render(){
-
+        const posting = this.props.postingdata[10] ;
         // const posting = this.props.postingdata[6] ? this.props.postingdata[6].image : null;
-        const posting = this.props.postingdata[1] ;
+        
         // ? this.props.postingdata[0].image : null;
         // console.log(posting);
         // if(posting) {
@@ -45,10 +47,14 @@ class PostingView extends  Component{
         // const objectURL = URL.createObjectURL(new Blob(['<a></a>'], {type: 'text/html'}));
         return (
             <div className="PostingView-full">
-                
                 <div className="PostingView-img">
-                    {/* <img src={"http://localhost:5000"+posting.image}></img> */}
-                    {/* {posting.image} */}
+                    {/*이미지 슬라이드 */}
+                    <AwesomeSlider
+                    style={{width:"500px",height:"500px"}}>
+                        <div><img src={"http://localhost:5000"+posting.image}/></div>
+                        <div><img src={"http://localhost:5000"+posting.image2}/></div>
+                        <div><img src={"http://localhost:5000"+posting.image3}/></div>
+                    </AwesomeSlider>
                 </div>
                 {/* 유저 네임 및 글 */}
                 <div className="user-name-content">
