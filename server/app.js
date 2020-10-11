@@ -10,6 +10,7 @@ const sequelize = require('./models').sequelize;
 // Router 정의
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const postingRouter = require('./routes/posting');
 
 const app = express();
 
@@ -32,7 +33,8 @@ app.use('/uploads', express.static(path.join(__dirname, './uploads')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-
+app.use('/posting',postingRouter);
+app.use('/uploads', express.static(path.join(__dirname, './uploads')));
 /** 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

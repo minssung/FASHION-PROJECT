@@ -43,6 +43,9 @@ body{
     height: 80px;
     margin: auto auto;
 }
+.logo a{
+    margin: auto auto;
+}
 .left-page .header .login-btn{
     position: relative;
     float: right;
@@ -56,8 +59,20 @@ body{
 
 .left-page-posting{
     text-align: center;
-    height: auto;
+    height: 770px;
+    width: 700px;
+    overflow:auto;
 }
+
+/*게시글 css*/
+.posting-view{
+    margin-left: auto;
+    margin-right: auto;
+    height: 200px;
+    display: table;
+}
+
+
 
 /* 로그인 모달 css */
 .login-modal-overlay {
@@ -118,11 +133,11 @@ body{
 */
 
 .posting-add-btn{
-    /* position: relative; */
+    position: sticky;
     width: 70px;
     /* float: right; */
-    top: -20px;
-    left: 50px;
+    top: 10px;
+    left: 10px;
 }
 .right-page{
     float: right;
@@ -229,15 +244,16 @@ body{
     float: left;
 }
 
+
 /*추가페이지 영역/////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
 
 .nullbox{
-    height: 120px;
+    height: 100px;
 }
-textarea{
+.posting-add-textarea{
     width: 395px;
-    height: 430px;
+    height: 330px;
     margin-top: 10px;
     border: 1px solid black;
     border-radius: 18px;
@@ -246,9 +262,19 @@ textarea{
     font-size: 17px;
     padding-top: 20px;
     padding-left: 15px;
+    resize: none;
 }
 .save{
     float: right;
     margin-right: 40px;
     margin-top: 20px;
+}
+.preview-box{
+    margin-left: auto;
+    margin-right: auto;
+    display: table;
+}
+.preview-box img{
+    width: 600px;
+    max-height: 600px;
 }

@@ -3,33 +3,44 @@ import './CSS/Home.css';
 import Button from '@material-ui/core/Button';
 import { Typography, IconButton } from '@material-ui/core';
 import Login from './Login';
+import PostingView from './PostingView';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 class Home extends Component{
     constructor(props) {
         super(props);
         this.state = {
+            file: "",
+            preview: "",
+            top_tag: "",
+            outer_tag: "",
+            bottom_tag: "",
+            shoes_tag: "",
+            content: "",
             loginModal: false,
+            posting_data: [],
             nick: '',
         }
-        
     }
 
-    componentDidMount() {
+    componentDidMount = async() => {
         this.setState({
-            nick: this.props.user.nick
+            nick: this.props.user.nick,
+            posting_data: this.props.posting,
         })
     }
-    
     render(){
-        const { loginModal, nick } = this.state;
-
-        return (
+        const { loginModal, nick} = this.state;
+        const posting = this.props.posting;
+        return ( 
             <div className="full-page">
                 <div className="left-page">
                     <div className="header">
                         <div className="logo">
-                            <img src="/images/logo3.PNG" alt="logo"/>
+                            <Link to={`/`}>
+                                <img src="/images/logo3.PNG" alt="logo"/>
+                            </Link>
                         </div>
                         <div className="login-btn">
                             {
@@ -53,11 +64,16 @@ class Home extends Component{
                     </div>
                     <div className="left-page-posting">
                         <div className="posting-add-btn">
+                            <Link to={`/postingAdd`}>
                             <IconButton>
                                 <img height="40px" src="/images/posting-add-btn.png" alt="addposting"/>
                             </IconButton>
+                            </Link>
                         </div>
-                        sns posting 화면
+                        <div className="posting-view">
+                            <PostingView postingdata={posting} />
+                            <PostingView postingdata={posting} />
+                        </div>
                     </div>
                 </div>
                 <div className="right-page">

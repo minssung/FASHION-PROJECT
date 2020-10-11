@@ -1,0 +1,58 @@
+.PostingView-full{
+    width: 500px;
+    height: 700px;
+    background-color: white;
+    background-size: 100%;
+    border: solid 1px gray;
+    margin-bottom: 10px;
+}
+.PostingView-img{
+    width: 100%;
+    height: 500px;
+}
+.user-name-content{
+    width: 100%;
+    height: 70px;
+}
+.user-name-content .posting-user-name{
+    float: left;
+    padding-left: 20px;
+    padding-top: 23px;
+    font-size: 18px;
+    font-weight: 700;
+}
+.user-name-content .posting-user-content{
+    float: left;
+    padding-left: 20px;
+    padding-top: 23px;
+    font-size: 16px;
+}
+.user-name-content .posting-heart-btn{
+    float: right;
+    margin-right: 20px;
+}
+.comment-preview{
+    width: 100%;
+    height: 60px;
+}
+.posting-comment-user{
+    float: left;
+    margin-left: 20px;
+}
+.posting-comment-content{
+    margin-right: 300px;
+}
+.comment-add{
+    width: 100%;
+    height: 65px;
+}
+.comment-add .comment-add-box{
+    float: left;
+    width: 400px;
+    height: 47px;
+    resize: none;
+    font-size: 17px;
+    padding-top: 20px;
+    padding-left: 15px;
+    border: none;
+}

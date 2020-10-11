@@ -4,6 +4,7 @@ import Mypage from './Mypage';
 import Home from './Home';
 import axios from 'axios';
 import './CSS/Base.css';
+import PostingAdd from './PostingAdd';
 import NotFound from './NotFound';
 
 import { useCookies } from 'react-cookie';
@@ -19,6 +20,7 @@ function Base() {
     const [userArray, setUserArray] = useState([]);
     const [loading, setLoading] = useState(true);
     const [cookies, setCookies] = useCookies(['name']);
+    const [posting, setPosting] = useState('');
 
     // state 변경 함수
     /**
@@ -59,6 +61,13 @@ function Base() {
                 setUserArray(users);
             }
             allUser();
+
+            async function postingData(){
+                const result = await axios.get(`http://localhost:5000/posting`);
+                setPosting(result.data);
+                console.log(result.data);
+            }
+            postingData();
             
         } catch (err) {
             console.log('mount', err)
@@ -73,7 +82,7 @@ function Base() {
                 <div>
                     <Router>
                         <Switch>
-                            <Route exact path="/" render={() => <Home user={user} />} />
+                            <Route exact path="/" render={() => <Home user={user} posting={posting}/>} />
                             <Route path="/insert" render={() => <Signup />} />
                             {userArray.map((data, i) => {
                                 return <Route key={i}
@@ -81,6 +90,7 @@ function Base() {
                                     render={() => <Mypage user={user} pageUser={data} />} 
                                 />
                             })}
+                            <Route path="/postingAdd" render={() => <PostingAdd /> } />
                             <Route component={NotFound} />
                         </Switch>
                     </Router>

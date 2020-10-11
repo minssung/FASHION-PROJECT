@@ -128,5 +128,15 @@ router.post('/verify', (req, res) => {
         console.log('Token verify', err);
     }
 });
+router.get('/', async (req, res, next) => {
+    try {
+        const postingdata = await posting.findAll();
+        res.render('app', { postingdata });
+        console.log(postingdata);
+    } catch (err) {
+        console.error(err);
+        next(err);
+    }
+});
 
 module.exports = router;
