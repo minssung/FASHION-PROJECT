@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './CSS/Mypage.css';
 import { IconButton, Typography } from '@material-ui/core';
-import { Link } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
@@ -49,6 +48,9 @@ class Mypage extends Component{
             pageImg: this.pageUser.photo,
             setComment: this.pageUser.comment,
         });
+
+        console.log('user', this.user);
+        console.log('pageUser', this.pageUser);
     }
 
     componentDidUpdate() {
@@ -123,10 +125,10 @@ class Mypage extends Component{
         let reader = new FileReader();
         let file = e.target.files[0];
         reader.onloadend = () => {
-        this.setState({
-            file : file,
-            previewURL : reader.result
-        })
+            this.setState({
+                file : file,
+                previewURL : reader.result
+            });
         }
         reader.readAsDataURL(file);
 
@@ -204,11 +206,11 @@ class Mypage extends Component{
                         <img src="/images/LOGO3.PNG" alt="logo" />
                     </div>
                     <div className="home-icon">
-                        <Link to="/">
+                        <a href="/">
                             <IconButton>
                                 <img width="40px" src="/images/home-icon.png" alt="homeicon"/>
                             </IconButton>
-                        </Link>
+                        </a>
                     </div>
                     <div className="user-profile">
                         <IconButton>
@@ -231,6 +233,12 @@ class Mypage extends Component{
                                 <IconButton onClick={() => {this.setState({ setUserModal: true });}}>
                                     <img width="30px" src="/images/setting.PNG" alt="setting"/>
                                 </IconButton>
+                                :
+                                // 로그인 상태: 팔로우 버튼 활성화, 이미 팔로워일 경우 버튼 변경
+                                this.user ?
+                                <div>
+                                    팔로우
+                                </div>
                                 :
                                 <div style={{margin: '20px auto'}}></div>
                             }
@@ -354,6 +362,10 @@ class Mypage extends Component{
                                 </tr>
                             </tbody>
                         </table>
+
+                        <div className="user-follow">
+                            
+                        </div>
                         
                         {/* <div className="profile-edit">
                             <Button variant="outlined">프로필 편집</Button>
