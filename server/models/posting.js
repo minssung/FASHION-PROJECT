@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
 
     return sequelize.define('posting', {
-        postting_num: {
+        post_id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             allowNull: false,
@@ -48,6 +48,11 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DATE,
             allowNull: false,
             defaultValue: sequelize.literal('now()'),
+        },
+
+        writer: {
+            type: DataTypes.STRING,
+            allowNull: false
         },
 
     }, {

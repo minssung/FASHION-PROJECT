@@ -4,11 +4,21 @@
     background-color: white;
     background-size: 100%;
     border: solid 1px gray;
-    margin-bottom: 10px;
+    margin-bottom: 70px;
 }
 .PostingView-img{
     width: 100%;
     height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid black;
+    background-color: black;
+}
+/* 이미지 리사이즈 (임시) */
+.PostingView-img img{
+    max-width: 500px;
+    max-height: 480px;
 }
 .user-name-content{
     width: 100%;

@@ -11,24 +11,11 @@ import { useCookies } from 'react-cookie';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 function Base() {
-    // 초기 state
-    /**
-    const [login, setLogin] = useState(false);
-    const [signup, setSignup] = useState(false);
-    */
     const [user, setUser] = useState('');               // user 개인
-    const [userArray, setUserArray] = useState([]);
+    const [userArray, setUserArray] = useState([]);     // user 전체
     const [loading, setLoading] = useState(true);
-    const [cookies, setCookies] = useCookies(['name']);
-    const [posting, setPosting] = useState('');
-
-    // state 변경 함수
-    /**
-    const setSignupForm = () => setSignup(true);
-    const setLoginForm = () => setSignup(false);
-    const loginFunc = () => setLogin(true);
-    */
-    // const logoutFunc = () => setLogin(false);
+    const [cookies, setCookies] = useCookies(['name']); // 로그인 정보
+    const [posting, setPosting] = useState([]);
 
     useEffect(() => {
         try {
@@ -64,6 +51,17 @@ function Base() {
 
             async function postingData(){
                 const result = await axios.get(`http://localhost:5000/posting`);
+
+                // const getNick = await result.data.map(async data => {
+                //     const res = await axios.get(`http://localhost:5000/users/one?emailId=${data.writer}`);
+                //     data.writer = res.data.nick;
+                //     return data
+                // });
+
+                // const promise = await Promise.all([result, getNick]).then(value => {
+                //     setPosting(value[0].data);
+                //     console.log(value[0].data)
+                // })
                 setPosting(result.data);
                 console.log(result.data);
             }
@@ -90,7 +88,7 @@ function Base() {
                                     render={() => <Mypage user={user} pageUser={data} />} 
                                 />
                             })}
-                            <Route path="/postingAdd" render={() => <PostingAdd /> } />
+                            { user && <Route path="/postingAdd" render={() => <PostingAdd user={user} /> } />}
                             <Route component={NotFound} />
                         </Switch>
                     </Router>
@@ -98,18 +96,6 @@ function Base() {
                 :
                 <div></div>
             }
-            
-            
-
-            {/* <div className="main-body">
-                {
-                // 회원가입 페이지 ON OFF
-                !signup ?
-                <Login signup={setSignupForm} login={loginFunc}/>
-                :
-                <Signup signup={setLoginForm}/>
-                }
-            </div> */}
         </div>
     );
 }

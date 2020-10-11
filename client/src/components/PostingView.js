@@ -3,7 +3,7 @@ import { Button,IconButton } from '@material-ui/core';
 import React, { Component } from 'react';
 import './CSS/PostingView.css';
 
-class PostingView extends  Component{
+class PostingView extends Component{
     constructor(props) {
         super(props);
         this.state = {
@@ -26,9 +26,12 @@ class PostingView extends  Component{
     }
 
     render(){
-
         // const posting = this.props.postingdata[6] ? this.props.postingdata[6].image : null;
-        const posting = this.props.postingdata[1] ;
+
+        const posting = this.props.postingdata;
+        // console.log('props', posting);
+        // console.log(posting.nick)
+
         // ? this.props.postingdata[0].image : null;
         // console.log(posting);
         // if(posting) {
@@ -43,21 +46,33 @@ class PostingView extends  Component{
         // this.setState({})
         // const objectURL = window.URL ? window.URL.createObjectURL(posting) : window.webkitURL.createObjectURL(posting);
         // const objectURL = URL.createObjectURL(new Blob(['<a></a>'], {type: 'text/html'}));
+
         return (
             <div className="PostingView-full">
-                
                 <div className="PostingView-img">
-                    {/* <img src={"http://localhost:5000"+posting.image}></img> */}
-                    {/* {posting.image} */}
+                    {/* 이미지 리사이즈 필요 */}
+                    {
+                        posting &&
+                        <img src={"http://localhost:5000"+posting.image} alt="post-img" />
+                    }
+                    
                 </div>
                 {/* 유저 네임 및 글 */}
                 <div className="user-name-content">
-                    {/* <p>{posting.content}</p> */}
-                    {/* <p className="posting-user-name">{posting.postting_num}</p>  */}
-                    {/* <p className="posting-user-content">{posting.content}</p> */}
+                    {/* {
+                        posting &&
+                        <p>{posting.content}</p>
+                    } */}
+                    <p className="posting-user-name">{posting.nick}</p>
+                    {
+                        posting &&
+                        <p className="posting-user-content">{posting.content}</p>
+                    }
+                    
                     <div className="posting-heart-btn">
                         <IconButton>
-                            <img height="30px" src="/images/heart.PNG" alt="addposting"/>123
+                            <img height="30px" src="/images/heart.PNG" alt="post-like"/>
+                            <span className="posting-like">123</span>
                         </IconButton>
                     </div>
                 </div>
