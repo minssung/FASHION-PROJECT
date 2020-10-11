@@ -53,6 +53,111 @@
     left: 223px;
 }
 
+.user-set-modal {
+    width: 600px;
+    height: 800px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-left: -300px;
+    margin-top: -400px;
+    background-color: white;
+    border: 0.5px solid black;
+    transition: 0.5s;
+    animation: appear .7s cubic-bezier(.77,0,.175,1) forwards;
+    z-index: 2000;
+}
+
+.user-set-title {
+    font-size: 25px;
+    position: absolute;
+    top: 2rem;
+}
+
+.user-set-modal-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 3%;
+    font-size: 40px;
+    color: gray;
+    cursor: pointer;
+    margin-left: 100px;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.user-set-body {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    margin-top: 250px;
+}
+
+.user-set-text1 {
+
+}
+.user-set-text2 {
+    margin-top: 30px;
+}
+.user-set-text3 {
+    margin-top: 30px;
+}
+
+/* 회원정보 form */
+.user-set-form {
+    height: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 80px;
+}
+.user-set {
+    margin-right: 30px;
+}
+.user-set div {
+    margin-top: 10px;
+}
+/* 회원정보 프로필 사진 form */
+.user-set-form-photo {
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.user-set-body-photo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+.user-set-form-photo .user-set input {
+    margin-top: 10px;
+}
+.user-set-photo img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+
+}
+/* 프로필 사진이 없을 때 */
+.user-set-non-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: gray;
+}
+
 .user-name{
     text-align: center;
     margin-top: -20px;

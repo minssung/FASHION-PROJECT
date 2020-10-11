@@ -1,9 +1,10 @@
 /* 회원가입 폼 전체 */
 .signup-container {
-    /* display: flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    height: 100%; */
-    margin: auto auto;
+    height: 100vh;
 }
 
 /* 회원가입 약관동의 텍스트 CSS */

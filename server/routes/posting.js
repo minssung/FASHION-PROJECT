@@ -5,6 +5,7 @@ const crypto = require('crypto');
 const { send } = require('process');
 const multer = require('multer');
 const app = require('../app');
+const posting = require('../models/posting');
 const upload = multer({dest: './uploads'});
 
 const Posting = models.posting;
@@ -33,26 +34,54 @@ router.get('/', async(req,res,next) => {
 //포스팅 정보 DB에 저장
 function posting_insert(posting_data, postimg) {
     try {
-        const result = Posting.create({
-            image: '/uploads/' + postimg.filename+".jpg",
-            top_tag : posting_data.top_tag,
-            outer_tag : posting_data.outer_tag,
-            bottom_tag : posting_data.bottom_tag,
-            shoes_tag : posting_data.shoes_tag,
-            content : posting_data.content,
-        });
-        return result
-
+        if(postimg[1]==null){
+            const result = Posting.create({
+                image: '/uploads/' + postimg[0].filename,
+                top_tag : posting_data.top_tag,
+                outer_tag : posting_data.outer_tag,
+                bottom_tag : posting_data.bottom_tag,
+                shoes_tag : posting_data.shoes_tag,
+                content : posting_data.content,
+            });
+            return result
+        }
+        if(postimg[2]==null){
+            const result = Posting.create({
+                image: '/uploads/' + postimg[0].filename,
+                image2: '/uploads/' + postimg[1].filename,
+                top_tag : posting_data.top_tag,
+                outer_tag : posting_data.outer_tag,
+                bottom_tag : posting_data.bottom_tag,
+                shoes_tag : posting_data.shoes_tag,
+                content : posting_data.content,
+            });
+            return result
+        }
+        else{
+            const result = Posting.create({
+                image: '/uploads/' + postimg[0].filename,
+                image2: '/uploads/' + postimg[1].filename,
+                image3: '/uploads/' + postimg[2].filename,
+                top_tag : posting_data.top_tag,
+                outer_tag : posting_data.outer_tag,
+                bottom_tag : posting_data.bottom_tag,
+                shoes_tag : posting_data.shoes_tag,
+                content : posting_data.content,
+            });
+            return result
+        }
+        
     } catch (err) {
         console.error('Posting DB Insert err', err);
     }
 }
 
-
-
-router.post('/insert',upload.single('file'), (req, res) => {
-    const result = posting_insert(req.body, req.file);
-    // console.log(req.file);
+router.post('/insert',upload.array('images',3), (req, res,next) => {
+    const result = posting_insert(req.body, req.files);
+    console.log(req.files[0]);
+    console.log(req.files[1]);
+    console.log(req.files[2]);
+    console.log(req.body.images);
     // console.log(req.body.outer_tag);
     console.log("데이터삽입 성공");
     res.send(result);

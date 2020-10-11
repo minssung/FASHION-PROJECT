@@ -9,7 +9,15 @@ module.exports = (sequelize, DataTypes) => {
         },
         image: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
+        },
+        image2: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        image3: {
+            type: DataTypes.STRING,
+            allowNull: true,
         },
 
         top_tag: {

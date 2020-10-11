@@ -3,6 +3,11 @@ const router = express.Router();
 const models = require('../models');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
+
+process.env.NODE_ENV === 'production' ? configs = require('../config/config.json').production : configs = require('../config/config.json').development;
 
 const User = models.user;
 
@@ -29,6 +34,56 @@ async function loginCheck(info) {
         console.error('Login Check', err);
     }
 }
+
+// 서버 루트경로 server/uploads 경로에 이미지 저장
+fs.readdir('./uploads', (error, files) => {
+    if (error) {
+        fs.mkdirSync('./uploads');
+    }
+})
+
+// 이미지 파일 형식 : 파일명.timestamp.확장명
+const upload = multer({
+    storage: multer.diskStorage({
+        destination(req, file, cb) {
+            cb(null, './uploads/');
+        },
+        filename(req, file, cb) {
+            const ext = path.extname(file.originalname);
+            cb(null, path.basename(file.originalname, ext) + '.' + new Date().getTime() + ext);
+        },
+    }),
+    limits: { fileSize: 5 * 1024 * 1024 },
+})
+
+// 파일 DB에 저장
+router.post('/upload', upload.single('img'), (req, res) => {
+    try {
+        if (req.file === undefined) {
+            console.log('client/Mypage.js FormData', req.file);
+            console.log('파일명', req.query.photo);
+        } else {
+            // 이미지 파일 선택한 경우
+            // 전에 있던 파일 삭제 -> 새로 저장
+            const filePath = path.join(__dirname, '../uploads', req.query.photo);
+
+            fs.access(filePath, fs.constants.F_OK, (err) => {
+                if (err) return console.log('삭제할 수 없는 파일입니다');
+            
+                fs.unlink(filePath, (err) => err ?  
+                    console.log(err) : console.log(`${filePath} 를 정상적으로 삭제했습니다`));
+            })
+
+            User.update({photo: req.file.filename}, {where: {emailId: req.query.emailId}});
+
+            res.json({ url: req.file.filename });
+        }
+        
+    } catch (err) {
+        console.log('profile photo', err);
+    }
+    
+})
 
 // 로그인 유효 검사
 router.post('/login', async (req, res, next) => {
@@ -63,7 +118,6 @@ router.post('/verify', (req, res) => {
 
         if (token !== 'undefined') {
             let decoded = jwt.verify(token, JWT_SECRET_KEY);
-            console.log(decoded.user_id);
             res.send(decoded);
 
         } else {
@@ -74,12 +128,6 @@ router.post('/verify', (req, res) => {
         console.log('Token verify', err);
     }
 });
-
-router.get('/getToken', (req, res) => {
-    const token = req.signedCookies.user;
-    console.log(token)
-    res.send(token);
-})
 router.get('/', async (req, res, next) => {
     try {
         const postingdata = await posting.findAll();
@@ -90,7 +138,5 @@ router.get('/', async (req, res, next) => {
         next(err);
     }
 });
-
-
 
 module.exports = router;

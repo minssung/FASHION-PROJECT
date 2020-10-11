@@ -75,7 +75,7 @@ function Login(props) {
                 <div className="login-id">
                     {
                         !emailIdErr ?
-                        <TextField id="outlined-basic-1" label="이메일 아이디" placeholder="id@domain.com" inputRef={emailRef} variant="outlined" value={emailId} onChange={onChangeEmailId} fullWidth={true} />
+                        <TextField id="outlined-basic-1" label="이메일 아이디" placeholder="id@domain.com" inputRef={emailRef} variant="outlined" value={emailId} onChange={onChangeEmailId} fullWidth={true} autoFocus={true}/>
                         :
                         <>
                         <TextField error id="outlined-error-helper-text" label="이메일 아이디" placeholder="id@domain.com" inputRef={emailRef} variant="outlined" value={emailId} onChange={onChangeEmailId} fullWidth={true} />

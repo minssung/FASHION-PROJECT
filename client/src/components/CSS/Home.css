@@ -5,6 +5,7 @@
     font-style: normal;
 }
 body{
+    font-size: 15px;
     font-family: 'paybooc-Bold';
     background-color:#F3F5F5;
     background-size: 100%;
@@ -40,6 +41,9 @@ body{
 .logo img{
     width: 150px;
     height: 80px;
+    margin: auto auto;
+}
+.logo a{
     margin: auto auto;
 }
 .left-page .header .login-btn{

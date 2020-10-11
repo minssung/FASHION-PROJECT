@@ -28,9 +28,9 @@ class PostingView extends  Component{
     render(){
 
         // const posting = this.props.postingdata[6] ? this.props.postingdata[6].image : null;
-        const posting = this.props.postingdata[6] ;
+        const posting = this.props.postingdata[1] ;
         // ? this.props.postingdata[0].image : null;
-        console.log(posting);
+        // console.log(posting);
         // if(posting) {
         //     const reader = new FileReader();
         //     const basePosting = Buffer.from(posting).toString('base64');
@@ -47,14 +47,14 @@ class PostingView extends  Component{
             <div className="PostingView-full">
                 
                 <div className="PostingView-img">
-                    <img src={"http://localhost:5000"+posting.image}></img>
+                    {/* <img src={"http://localhost:5000"+posting.image}></img> */}
                     {/* {posting.image} */}
                 </div>
                 {/* 유저 네임 및 글 */}
                 <div className="user-name-content">
                     {/* <p>{posting.content}</p> */}
-                    <p className="posting-user-name">{posting.postting_num}</p> 
-                    <p className="posting-user-content">{posting.content}</p>
+                    {/* <p className="posting-user-name">{posting.postting_num}</p>  */}
+                    {/* <p className="posting-user-content">{posting.content}</p> */}
                     <div className="posting-heart-btn">
                         <IconButton>
                             <img height="30px" src="/images/heart.PNG" alt="addposting"/>123

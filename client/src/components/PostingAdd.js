@@ -11,6 +11,8 @@ class PostingAdd extends Component{
         super(props);
         this.state={
             file: "",
+            file2: "",
+            file3: "",
             preview: "",
             top_tag: "",
             outer_tag: "",
@@ -19,20 +21,35 @@ class PostingAdd extends Component{
             content: "",
         }
     }
-    
+
     //onChange에서 호출 되는 함수 
     FileOnChange = (event) => {
         event.preventDefault();
         let reader = new FileReader();
         let file = event.target.files[0];
+        let file2;
+        let file3;
+        if(event.target.files[1] != null){
+            file2 = event.target.files[1];
+        }else{
+            file2 = null;
+        } 
+        if(event.target.files[2] != null){
+            file3 = event.target.files[2];
+        }else{
+            file3 = null;
+        }
+        let prefile = event.target.files[0];
         reader.onloadend = () => {
           this.setState({
             file : file,
+            file2 : file2,
+            file3 : file3,
             preview : reader.result
           });
         }
         // 이미지파일 읽어오는 메서드
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(prefile);
       }
       //상의 태그 선택 시 state값 변경
       TopTagChange = (tag) => {
@@ -68,12 +85,16 @@ class PostingAdd extends Component{
 
       //디비에 포스팅 데이터 저장 
       //이미지가 아닌 데이터 입력시 에러메세지 추가 해야함 
-      SaveData(){
+      async SaveData(){
         const formData = new FormData();
         
-        console.log(this.state);
+        console.log(this.state.file);
+        console.log(this.state.file2);
+        console.log(this.state.file3);
         // const postingData = this.state;
-        formData.append('file',this.state.file);
+        formData.append('images',this.state.file);
+        formData.append('images',this.state.file2);
+        formData.append('images',this.state.file3);
         formData.append('top_tag',this.state.top_tag);
         formData.append('outer_tag',this.state.outer_tag);
         formData.append('bottom_tag',this.state.bottom_tag);
@@ -84,8 +105,9 @@ class PostingAdd extends Component{
             // outer_tag : this.state.outer_tag,
             // bottom_tag : this.state.bottom_tag,
             // shoes_tag : this.state.shoes_tag,
-        axios.post('http://localhost:5000/posting/insert', formData,{
+        await axios.post('http://localhost:5000/posting/insert', formData,{
             headers: {'Content-Type': 'multipart/form-data'}
+            
         });
         alert("포스팅이 저장되었습니다.");
       }
@@ -115,8 +137,9 @@ class PostingAdd extends Component{
                 {profile_preview}
             </div>
             <input type="file" 
-                name="img" 
+                name="images" 
                 accept="image/jpg, image/png, image/jpeg, image/gif"
+                multiple
                 //onChange는 input에 입력돤값이 변경될때마다 실행
                 onChange={this.FileOnChange}/>
             </div>
