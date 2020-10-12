@@ -28,7 +28,7 @@ class PostingView extends  Component{
     }
 
     render(){
-        const posting = this.props.postingdata[10] ;
+        const posting = this.props.postingdata[0] ;
         // const posting = this.props.postingdata[6] ? this.props.postingdata[6].image : null;
         
         // ? this.props.postingdata[0].image : null;
@@ -50,7 +50,8 @@ class PostingView extends  Component{
                 <div className="PostingView-img">
                     {/*이미지 슬라이드 */}
                     <AwesomeSlider
-                    style={{width:"500px",height:"500px"}}>
+                    style={{width:"500px",height:"470px"}}
+                    bullets={true}>
                         <div><img src={"http://localhost:5000"+posting.image}/></div>
                         <div><img src={"http://localhost:5000"+posting.image2}/></div>
                         <div><img src={"http://localhost:5000"+posting.image3}/></div>
@@ -58,12 +59,11 @@ class PostingView extends  Component{
                 </div>
                 {/* 유저 네임 및 글 */}
                 <div className="user-name-content">
-                    {/* <p>{posting.content}</p> */}
-                    {/* <p className="posting-user-name">{posting.postting_num}</p>  */}
-                    {/* <p className="posting-user-content">{posting.content}</p> */}
+                    <p className="posting-user-name">{posting.postting_num}</p> 
+                    <p className="posting-user-content">{posting.content}</p>
                     <div className="posting-heart-btn">
                         <IconButton>
-                            <img height="30px" src="/images/heart.PNG" alt="addposting"/>123
+                            <img height="30px" src="/images/heart.PNG" alt="addposting"/>{posting.like}
                         </IconButton>
                     </div>
                 </div>
