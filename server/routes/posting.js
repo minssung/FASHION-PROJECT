@@ -1,26 +1,21 @@
 const express = require('express');
 const router = express.Router();
 const models = require('../models');
-const crypto = require('crypto');
-const { send } = require('process');
 const multer = require('multer');
-const app = require('../app');
-const posting = require('../models/posting');
 const upload = multer({dest: './uploads'});
 
 const Posting = models.posting;
 
 //포스팅 회원가입 정보가 들어올때 검사하는 곳
-
-
 router.get('/', async(req,res,next) => {
     try {
         const postingdata = await Posting.findAll({
+            order: [
+                ['post_id', 'DESC']
+            ],
+            limit: 5
         });
-        // console.log(postingdata);
-        // const basePosting = postingdata.toString('base64');
-        // console.log(basePosting);
-        // console.log(postingdata);
+
         res.send(postingdata);
     } 
     catch(err){
@@ -30,9 +25,8 @@ router.get('/', async(req,res,next) => {
     
 });
 
-
 //포스팅 정보 DB에 저장
-function posting_insert(posting_data, postimg) {
+function posting_insert(posting_data, postimg, writer) {
     try {
         if(postimg[1]==null){
             const result = Posting.create({
@@ -42,6 +36,7 @@ function posting_insert(posting_data, postimg) {
                 bottom_tag : posting_data.bottom_tag,
                 shoes_tag : posting_data.shoes_tag,
                 content : posting_data.content,
+                writer: writer
             });
             return result
         }
@@ -54,6 +49,7 @@ function posting_insert(posting_data, postimg) {
                 bottom_tag : posting_data.bottom_tag,
                 shoes_tag : posting_data.shoes_tag,
                 content : posting_data.content,
+                writer: writer
             });
             return result
         }
@@ -67,6 +63,7 @@ function posting_insert(posting_data, postimg) {
                 bottom_tag : posting_data.bottom_tag,
                 shoes_tag : posting_data.shoes_tag,
                 content : posting_data.content,
+                writer: writer
             });
             return result
         }
@@ -77,10 +74,13 @@ function posting_insert(posting_data, postimg) {
 }
 
 router.post('/insert',upload.array('images',3), (req, res,next) => {
-    const result = posting_insert(req.body, req.files);
-    console.log(req.files[0]);
-    console.log(req.files[1]);
-    console.log(req.files[2]);
+    const result = posting_insert(req.body, req.files, req.query.writer);
+
+    console.log('AAA', req.query.writer);
+
+    console.log('첫번째 사진', req.files[0]);
+    console.log('두번째 사진', req.files[1]);
+    console.log('세번째 사진', req.files[2]);
     console.log(req.body.images);
     // console.log(req.body.outer_tag);
     console.log("데이터삽입 성공");

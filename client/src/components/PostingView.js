@@ -5,7 +5,7 @@ import './CSS/PostingView.css';
 import AwesomeSlider from 'react-awesome-slider';
 import 'react-awesome-slider/dist/styles.css';
 
-class PostingView extends  Component{
+class PostingView extends Component{
     constructor(props) {
         super(props);
         this.state = {
@@ -28,9 +28,12 @@ class PostingView extends  Component{
     }
 
     render(){
-        const posting = this.props.postingdata[0] ;
         // const posting = this.props.postingdata[6] ? this.props.postingdata[6].image : null;
-        
+
+        const posting = this.props.postingdata;
+        // console.log('props', posting);
+        // console.log(posting.nick)
+
         // ? this.props.postingdata[0].image : null;
         // console.log(posting);
         // if(posting) {
@@ -45,10 +48,12 @@ class PostingView extends  Component{
         // this.setState({})
         // const objectURL = window.URL ? window.URL.createObjectURL(posting) : window.webkitURL.createObjectURL(posting);
         // const objectURL = URL.createObjectURL(new Blob(['<a></a>'], {type: 'text/html'}));
+
         return (
             <div className="PostingView-full">
                 <div className="PostingView-img">
-                    {/*이미지 슬라이드 */}
+                    {/* 이미지 리사이즈 필요 */}
+                    {/* 이미지 슬라이드  */}
                     <AwesomeSlider
                     style={{width:"500px",height:"470px"}}
                     bullets={true}>
@@ -58,12 +63,34 @@ class PostingView extends  Component{
                     </AwesomeSlider>
                 </div>
                 {/* 유저 네임 및 글 */}
-                <div className="user-name-content">
+                {/* <div className="user-name-content">
                     <p className="posting-user-name">{posting.postting_num}</p> 
                     <p className="posting-user-content">{posting.content}</p>
                     <div className="posting-heart-btn">
                         <IconButton>
                             <img height="30px" src="/images/heart.PNG" alt="addposting"/>{posting.like}
+                    {
+                        posting &&
+                        <img src={"http://localhost:5000"+posting.image} alt="post-img" />
+                    }
+                    
+                </div>
+                {/* 유저 네임 및 글 */}
+                <div className="user-name-content">
+                    {/* {
+                        posting &&
+                        <p>{posting.content}</p>
+                    } */}
+                    <p className="posting-user-name">{posting.writer}</p>
+                    {
+                        posting &&
+                        <p className="posting-user-content">{posting.content}</p>
+                    }
+                    
+                    <div className="posting-heart-btn">
+                        <IconButton>
+                            <img height="30px" src="/images/heart.PNG" alt="post-like"/>
+                            <span className="posting-like">{posting.like}</span>
                         </IconButton>
                     </div>
                 </div>

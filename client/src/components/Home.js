@@ -4,8 +4,13 @@ import Button from '@material-ui/core/Button';
 import { Typography, IconButton } from '@material-ui/core';
 import Login from './Login';
 import PostingView from './PostingView';
+import BestPosting from './BestPosting';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import AwesomeSlider from 'react-awesome-slider';
+import 'react-awesome-slider/dist/styles.css';
+import withAutoplay from 'react-awesome-slider/dist/autoplay';
+
+const AutoplaySlider = withAutoplay(AwesomeSlider);
 
 class Home extends Component{
     constructor(props) {
@@ -19,20 +24,21 @@ class Home extends Component{
             shoes_tag: "",
             content: "",
             loginModal: false,
-            posting_data: [],
             nick: '',
         }
     }
 
-    componentDidMount = async() => {
+    async componentDidMount() {
         this.setState({
             nick: this.props.user.nick,
-            posting_data: this.props.posting,
-        })
+        });
     }
-    render(){
-        const { loginModal, nick} = this.state;
-        const posting = this.props.posting;
+    render() {
+        const { loginModal, nick } = this.state;
+        const { posting } = this.props;
+
+        // console.log(posting[0].nick);
+        
         return ( 
             <div className="full-page">
                 <div className="left-page">
@@ -51,7 +57,6 @@ class Home extends Component{
                                     <div className="mypage-btn">My</div>
                                 </Link>
                             }
-                            
                         </div>
                         {
                             loginModal && <>
@@ -64,15 +69,22 @@ class Home extends Component{
                     </div>
                     <div className="left-page-posting">
                         <div className="posting-add-btn">
-                            <Link to={`/postingAdd`}>
-                            <IconButton>
-                                <img height="40px" src="/images/posting-add-btn.png" alt="addposting"/>
-                            </IconButton>
-                            </Link>
+                            {
+                                this.props.user &&
+                                <Link to={`/postingAdd`}>
+                                    <IconButton>
+                                        <img height="40px" src="/images/posting-add-btn.png" alt="addposting"/>
+                                    </IconButton>
+                                </Link>
+                            }
+                            
                         </div>
                         <div className="posting-view">
-                            <PostingView postingdata={posting} />
-                            <PostingView postingdata={posting} />
+                            {
+                                posting.map((data, i) => {
+                                    return <PostingView key={i} postingdata={data} />
+                                })
+                            }
                         </div>
                     </div>
                 </div>
@@ -81,7 +93,7 @@ class Home extends Component{
                         <form className="search-bar">
                             <input type="text" placeholder="Search..." aria-label="Search" />
                             <IconButton>
-                            <img src="/images/search-icon.png" alt="searchicon"/>
+                                <img src="/images/search-icon.png" alt="searchicon"/>
                             </IconButton>
                         </form>
                     </div>
@@ -129,17 +141,23 @@ class Home extends Component{
                         </div>
                     </div>
                     <div className="hot-posting">
-                        <p>인기 포스터</p>
                         <div className="hot-posting-box">
+                            <AutoplaySlider
+                                style={{width:"430px",height:"430px"}}
+                                play={true}
+                                bullets={false}>
+                                <div><BestPosting postingdata={posting[0]}/></div>
+                                <div><BestPosting postingdata={posting[1]}/></div>
+                                <div><BestPosting postingdata={posting[2]}/></div>
+                            </AutoplaySlider>
                         </div>
                     </div>
                 </div>
                 <footer className="footer">
                     <Typography variant="body2" color="textSecondary" align="center">
-                    {'긴머리와 파마머리 '+new Date().getFullYear()+' 졸업작품 프로젝트'}
+                        {'긴머리와 파마머리 ' + new Date().getFullYear() + ' 졸업작품 프로젝트'}
                     </Typography>
                 </footer>
-                
             </div>
         );
      };
