@@ -39,7 +39,13 @@
 }
 .user-name-content .posting-heart-btn{
     float: right;
-    margin-right: 20px;
+    margin-right: 10px;
+    margin-top: 3px;
+}
+.posting-like {
+    margin-left: 5px;
+    font-size: 1rem;
+    font-weight: 700;
 }
 .comment-preview{
     width: 100%;

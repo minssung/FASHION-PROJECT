@@ -87,4 +87,84 @@ router.post('/insert',upload.array('images',3), (req, res,next) => {
     res.send(result);
 });
 
+// top-tag
+router.post('/top-tag-all', async(req, res) => {
+    const result = await Posting.findAll({
+        where: {
+            top_tag: ['short-Tee', 'shirt', 'hood-shirt', 'sweatshirt', 'top-etc']
+        }
+    });
+
+    res.send(result);
+})
+router.post('/top-tag', async(req, res) => {
+    const result = await Posting.findAll({
+        where: {
+            top_tag: req.query.tag
+        }
+    });
+
+    res.send(result);
+})
+
+// outer-tag
+router.post('/outer-tag-all', async(req, res) => {
+    const result = await Posting.findAll({
+        where: {
+            outer_tag: ['coat', 'hood-zip-up', 'cardigan', 'jacket', 'padding']
+        }
+    });
+
+    res.send(result);
+})
+router.post('/outer-tag', async(req, res) => {
+    const result = await Posting.findAll({
+        where: {
+            outer_tag: req.query.tag
+        }
+    });
+
+    res.send(result);
+})
+
+// bottom-tag
+router.post('/bottom-tag-all', async(req, res) => {
+    const result = await Posting.findAll({
+        where: {
+            bottom_tag: ['Denim', 'skirt', 'slacks', 'leggings', 'bottom-etc']
+        }
+    });
+
+    res.send(result);
+})
+router.post('/bottom-tag', async(req, res) => {
+    const result = await Posting.findAll({
+        where: {
+            bottom_tag: req.query.tag
+        }
+    });
+
+    res.send(result);
+})
+
+// shoes-tag
+router.post('/shoes-tag-all', async(req, res) => {
+    const result = await Posting.findAll({
+        where: {
+            shoes_tag: ['running-shoes', 'shoes', 'sneakers', 'sandal', 'shoes-etc']
+        }
+    });
+
+    res.send(result);
+})
+router.post('/shoes-tag', async(req, res) => {
+    const result = await Posting.findAll({
+        where: {
+            shoes_tag: req.query.tag
+        }
+    });
+
+    res.send(result);
+})
+
 module.exports = router;

@@ -5,6 +5,7 @@ import { Typography, IconButton } from '@material-ui/core';
 import Login from './Login';
 import PostingView from './PostingView';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 class Home extends Component{
     constructor(props) {
@@ -19,6 +20,7 @@ class Home extends Component{
             content: "",
             loginModal: false,
             nick: '',
+            tag: null,      // null: 전체 게시글
         }
     }
 
@@ -27,20 +29,26 @@ class Home extends Component{
             nick: this.props.user.nick,
         });
     }
+
+    componentDidUpdate() {
+        console.log('ABC', this.state.tag);
+    }
+    
     render() {
-        const { loginModal, nick } = this.state;
+        const { loginModal, nick, tag } = this.state;
         const { posting } = this.props;
 
         // console.log(posting[0].nick);
+        
         
         return ( 
             <div className="full-page">
                 <div className="left-page">
                     <div className="header">
                         <div className="logo">
-                            <Link to={`/`}>
+                            <a href="/">
                                 <img src="/images/logo3.PNG" alt="logo"/>
-                            </Link>
+                            </a>
                         </div>
                         <div className="login-btn">
                             {
@@ -75,7 +83,12 @@ class Home extends Component{
                         </div>
                         <div className="posting-view">
                             {
+                                !tag ?
                                 posting.map((data, i) => {
+                                    return <PostingView key={i} postingdata={data} />
+                                })
+                                :
+                                tag.map((data, i) => {
                                     return <PostingView key={i} postingdata={data} />
                                 })
                             }
@@ -96,13 +109,13 @@ class Home extends Component{
                         <div className="tag-selection-box">
                             <form>
                                 <ul>
-                                <div className="line4"></div>
-                                    <li><Button style={{fontSize:'18px',fontWeight:'bold'}}>상의</Button></li>
-                                    <li><Button>반팔</Button></li>
-                                    <li><Button>셔츠</Button></li>
-                                    <li><Button>후드티</Button></li>
-                                    <li><Button>스웨트</Button></li>
-                                    <li><Button>기타</Button></li>
+                                    <div className="line4"></div>
+                                    <li onClick={async () => { const item = await axios.post('http://localhost:5000/posting/top-tag-all'); this.setState({ tag: item.data }); }}><Button style={{fontSize:'18px',fontWeight:'bold'}}>상의</Button></li>
+                                    <li onClick={async () => { const item = await axios.post('http://localhost:5000/posting/top-tag?tag=short-tee'); this.setState({ tag: item.data }); }}><Button>반팔</Button></li>
+                                    <li onClick={async () => { const item = await axios.post('http://localhost:5000/posting/top-tag?tag=shirt'); this.setState({ tag: item.data }); }}><Button>셔츠</Button></li>
+                                    <li onClick={async () => { const item = await axios.post('http://localhost:5000/posting/top-tag?tag=hood-shirt'); this.setState({ tag: item.data }); }}><Button>후드티</Button></li>
+                                    <li onClick={async () => { const item = await axios.post('http://localhost:5000/posting/top-tag?tag=sweatshirt'); this.setState({ tag: item.data }); }}><Button>스웨트</Button></li>
+                                    <li onClick={async () => { const item = await axios.post('http://localhost:5000/posting/top-tag?tag=top-etc'); this.setState({ tag: item.data }); }}><Button>기타</Button></li>
                                 </ul>
                                 <div className="line1"></div>
                                 <ul>

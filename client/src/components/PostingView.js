@@ -2,6 +2,8 @@ import { Button,IconButton } from '@material-ui/core';
 // 게시글 페이지
 import React, { Component } from 'react';
 import './CSS/PostingView.css';
+import AwesomeSlider from 'react-awesome-slider';
+import 'react-awesome-slider/dist/styles.css';
 
 class PostingView extends Component{
     constructor(props) {
@@ -29,7 +31,7 @@ class PostingView extends Component{
         // const posting = this.props.postingdata[6] ? this.props.postingdata[6].image : null;
 
         const posting = this.props.postingdata;
-        // console.log('props', posting);
+        // console.log('props', posting.image2);
         // console.log(posting.nick)
 
         // ? this.props.postingdata[0].image : null;
@@ -53,9 +55,23 @@ class PostingView extends Component{
                     {/* 이미지 리사이즈 필요 */}
                     {
                         posting &&
-                        <img src={"http://localhost:5000"+posting.image} alt="post-img" />
+                        <AwesomeSlider
+                        style={{width:"500px",height:"500px"}}>
+                            <div><img src={"http://localhost:5000"+posting.image} alt="post-img" /></div>
+                            {
+                                posting.image2 ?
+                                <div><img src={"http://localhost:5000"+posting.image2} alt="post-img" /></div>
+                                :
+                                <div></div>
+                            }
+                            {
+                                posting.image3 ?
+                                <div><img src={"http://localhost:5000"+posting.image3} alt="post-img" /></div>
+                                :
+                                <div></div>
+                            }
+                        </AwesomeSlider>
                     }
-                    
                 </div>
                 {/* 유저 네임 및 글 */}
                 <div className="user-name-content">

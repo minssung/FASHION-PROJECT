@@ -38,9 +38,16 @@ function Base() {
                 const result = await axios.get(`http://localhost:5000/users/one?emailId=${user_id}`);
                 setUser(result.data);
 
-                // 초기 마운트 끝 부분 로딩완료.
+                // // 초기 마운트 끝 부분 로딩완료.
                 setLoading(false); 
-            });
+            })
+            // .then(
+            //     postingData(),
+            //     allUser()
+            // )
+            // .then(() => {
+            //     setLoading(false);
+            // })
 
             async function allUser() {
                 const result = await axios.get('http://localhost:5000/users/all');
@@ -66,6 +73,7 @@ function Base() {
                 console.log(result.data);
             }
             postingData();
+
             
         } catch (err) {
             console.log('mount', err)
