@@ -5,7 +5,7 @@
 
 
 ### Visuals
-![회원가입](/client/public/images/pf_visual1.JPG)
+![회원가입](/client/public/images/pf_visual1.JPG)  
 회원가입 화면 - DB 연동 Validation 처리
 ***
 ![회원가입](/client/public/images/pf_visual2.JPG)
