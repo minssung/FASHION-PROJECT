@@ -5,7 +5,15 @@
 
 
 ### Visuals
-추가 예정
+![회원가입](/client/public/images/pf_visual1.JPG)
+회원가입 화면 - DB 연동 Validation 처리
+***
+![회원가입](/client/public/images/pf_visual2.JPG)
+마이페이지에서 회원정보 변경 화면
+***
+![회원가입](/client/public/images/pf_visual3.JPG)
+메인 화면 - 게시글 조회 및 추가가 가능하고 태그 선택 시 해당 게시글만 조회 가능
+***
 
 ### Installation
 ```javascript
