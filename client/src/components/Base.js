@@ -6,6 +6,7 @@ import axios from 'axios';
 import './CSS/Base.css';
 import PostingAdd from './PostingAdd';
 import NotFound from './NotFound';
+import BestPosting from './BestPosting';
 
 import { useCookies } from 'react-cookie';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -93,10 +94,11 @@ function Base() {
                             {userArray.map((data, i) => {
                                 return <Route key={i}
                                     path={`/${data.nick}`}
-                                    render={() => <Mypage user={user} pageUser={data} />} 
+                                    render={() => <Mypage user={user} pageUser={data} posting={posting} />} 
                                 />
                             })}
                             { user && <Route path="/postingAdd" render={() => <PostingAdd user={user} /> } />}
+                            
                             <Route component={NotFound} />
                         </Switch>
                     </Router>

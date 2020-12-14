@@ -53,6 +53,22 @@ class PostingView extends Component{
             <div className="PostingView-full">
                 <div className="PostingView-img">
                     {/* 이미지 리사이즈 필요 */}
+                    {/* 이미지 슬라이드  */}
+                    <AwesomeSlider
+                    style={{width:"500px",height:"470px"}}
+                    bullets={true}>
+                        <div><img src={"http://localhost:5000"+posting.image} alt="post-img" /></div>
+                        <div><img src={"http://localhost:5000"+posting.image2} alt="post-img"/></div>
+                        <div><img src={"http://localhost:5000"+posting.image3} alt="post-img"/></div>
+                    </AwesomeSlider>
+                </div>
+                {/* 유저 네임 및 글 */}
+                {/* <div className="user-name-content">
+                    <p className="posting-user-name">{posting.postting_num}</p> 
+                    <p className="posting-user-content">{posting.content}</p>
+                    <div className="posting-heart-btn">
+                        <IconButton>
+                            <img height="30px" src="/images/heart.PNG" alt="addposting"/>{posting.like}
                     {
                         posting &&
                         <AwesomeSlider
@@ -72,6 +88,7 @@ class PostingView extends Component{
                             }
                         </AwesomeSlider>
                     }
+                    
                 </div>
                 {/* 유저 네임 및 글 */}
                 <div className="user-name-content">
@@ -79,7 +96,7 @@ class PostingView extends Component{
                         posting &&
                         <p>{posting.content}</p>
                     } */}
-                    <p className="posting-user-name">{posting.nick}</p>
+                    <p className="posting-user-name">{posting.writer}</p>
                     {
                         posting &&
                         <p className="posting-user-content">{posting.content}</p>
@@ -88,7 +105,7 @@ class PostingView extends Component{
                     <div className="posting-heart-btn">
                         <IconButton>
                             <img height="30px" src="/images/heart.PNG" alt="post-like"/>
-                            <span className="posting-like">123</span>
+                            <span className="posting-like">{posting.like}</span>
                         </IconButton>
                     </div>
                 </div>

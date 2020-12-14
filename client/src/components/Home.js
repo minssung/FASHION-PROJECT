@@ -4,8 +4,14 @@ import Button from '@material-ui/core/Button';
 import { Typography, IconButton } from '@material-ui/core';
 import Login from './Login';
 import PostingView from './PostingView';
+import BestPosting from './BestPosting';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import AwesomeSlider from 'react-awesome-slider';
+import 'react-awesome-slider/dist/styles.css';
+import withAutoplay from 'react-awesome-slider/dist/autoplay';
+
+const AutoplaySlider = withAutoplay(AwesomeSlider);
 
 class Home extends Component{
     constructor(props) {
@@ -148,8 +154,15 @@ class Home extends Component{
                         </div>
                     </div>
                     <div className="hot-posting">
-                        <p>인기 포스터</p>
                         <div className="hot-posting-box">
+                            <AutoplaySlider
+                                style={{width:"430px",height:"430px"}}
+                                play={true}
+                                bullets={false}>
+                                <div><BestPosting postingdata={posting[0]}/></div>
+                                <div><BestPosting postingdata={posting[1]}/></div>
+                                <div><BestPosting postingdata={posting[2]}/></div>
+                            </AutoplaySlider>
                         </div>
                     </div>
                 </div>

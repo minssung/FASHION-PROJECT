@@ -4,7 +4,8 @@
     background-color: white;
     background-size: 100%;
     border: solid 1px gray;
-    margin-bottom: 70px;
+    margin-bottom: 10px;
+    
 }
 .PostingView-img{
     width: 100%;
@@ -18,7 +19,7 @@
 /* 이미지 리사이즈 (임시) */
 .PostingView-img img{
     max-width: 500px;
-    max-height: 480px;
+    max-height: 500px;
 }
 .user-name-content{
     width: 100%;

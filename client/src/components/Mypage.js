@@ -4,6 +4,7 @@ import { IconButton, Typography } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
+import PostingView from './PostingView';
 
 class Mypage extends Component{
 
@@ -193,7 +194,7 @@ class Mypage extends Component{
     render(){
         const { verify, setUserModal, file, previewURL, previewImg, pageImg } = this.state;
         const { nick, nickErr, confirmNick, confirmNickErr, existNick, exceptionNick, comment, commentErr, setComment } = this.state;
-
+        const { posting } = this.props;
         let profile_preview = null;
         if (file !== '') {
             profile_preview = previewURL;
@@ -378,8 +379,15 @@ class Mypage extends Component{
                             </div>
                         }
                     </div>
+                    {/*포스팅*/}
                     <div className="user-posting">
-                        유저 포스팅
+                        <div className="user-posting-view">
+                        {
+                            posting.map((data, i) => {
+                                return <PostingView key={i} postingdata={data} />
+                            })
+                        }
+                        </div>
                     </div>
                 </div>
                 

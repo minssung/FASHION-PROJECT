@@ -186,8 +186,15 @@
 .user-posting{
     width: 900px;
     height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    display: table;
 }
-
+.user-posting-view{
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}
 .mypage-logout {
     margin: 0 auto;
 }
