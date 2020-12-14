@@ -34,7 +34,7 @@ class PostingView extends Component{
         return (
             <div className="BestPostingView-full">
                 <div className="BestPostingView-img">
-                        <div><img className="BestImg" src={"http://localhost:5000"+posting.image}/></div>
+                    <div><img className="BestImg" src={"http://localhost:5000" + posting?.image}/></div>
                 </div>
                 <div className="BestPosting-content">
                     {
